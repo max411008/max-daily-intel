@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAX Daily Intel — 2026-04-08</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card-bg: #141414;
+    --card-border: #1e1e1e;
+    --text: #e0e0e0;
+    --text-dim: #888;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-stocks: #4caf50;
+    --accent-ai: #7c4dff;
+    --accent-dev: #00bcd4;
+    --link: #64b5f6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 0 32px;
+    border-bottom: 1px solid var(--card-border);
+    margin-bottom: 32px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  header .date {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+  }
+
+  .toc h2 {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .toc a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--card-border);
+    transition: color 0.2s;
+  }
+
+  .toc a:last-child { border-bottom: none; }
+  .toc a:hover { color: var(--link); }
+
+  .toc .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .toc .count {
+    margin-left: auto;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 36px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--card-border);
+  }
+
+  .sector-header .indicator {
+    width: 4px;
+    height: 24px;
+    border-radius: 2px;
+  }
+
+  .sector-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .news-card:hover {
+    border-color: #333;
+  }
+
+  .news-card .source {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .news-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card h3 a:hover {
+    color: var(--link);
+  }
+
+  .news-card .summary {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .news-card .tags {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.06);
+    color: var(--text-dim);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 32px 0;
+    border-top: 1px solid var(--card-border);
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  footer a { color: var(--link); text-decoration: none; }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 20px;
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    header h1 { font-size: 1.4rem; }
+    .container { padding: 16px 12px 40px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>MAX Daily Intel</h1>
+    <div class="date">April 08, 2026</div>
+  </header>
+
+  <nav class="toc">
+    <h2>Today's Sectors</h2>
+    <a href="#crypto"><span class="dot" style="background:var(--accent-crypto)"></span>Crypto / DeFi<span class="count">2</span></a>
+    <a href="#gold"><span class="dot" style="background:var(--accent-gold)"></span>Gold / Commodities<span class="count">2</span></a>
+    <a href="#stocks"><span class="dot" style="background:var(--accent-stocks)"></span>Stocks / Macro<span class="count">0</span></a>
+    <a href="#ai"><span class="dot" style="background:var(--accent-ai)"></span>AI Industry<span class="count">2</span></a>
+    <a href="#dev"><span class="dot" style="background:var(--accent-dev)"></span>Dev Tools & Ideas<span class="count">2</span></a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; Crypto / DeFi</h2>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/07/bitcoin-rises-past-usd69-000-as-risk-markets-reverse-big-early-losses-on-hope-for-iran-deal" target="_blank" rel="noopener">Bitcoin rises past $69,000 as risk markets reverse big early losses on hope for Iran deal</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/what-happened-in-crypto-today?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Here’s what happened in crypto today</a></h3>
+      <div class="summary">Need to know what happened in crypto today? Here is the latest news on daily trends and events impacting Bitcoin price, blockchain, DeFi, NFTs, Web3 and crypto regulation.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; Gold / Commodities</h2>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/economic-event-calendar-asia-april-8-2026-trump-deadline-ahead-rbnz-hold-expected-20260407/" target="_blank" rel="noopener">Economic & event calendar Asia, April 8, 2026: Trump deadline ahead. RBNZ hold expected.</a></h3>
+      <div class="summary">Eyes are once again on the war makers. The current state of play is Pakistan has proposed a 2 week ceasefire to them both. Under consideration is the word from both.Trump's deadline is 8pm US Eastern time, 0000 GMT. Apart from that the RBNZ is expected on hold today. I'll have more to come on this s</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-says-in-heated-negotiations-with-iran-20260407/" target="_blank" rel="noopener">Trump says in 'heated negotiations' with Iran</a></h3>
+      <div class="summary">Trump was asked about Iran and said he "can't comment" because he's in "heated negotiations" with Iran.At this point it's clear that negotiations are ongoing but we're only four hours away from a brutal escalation. The market closed with a positive note so hopefully that can continue into tomorrow.M</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f4c8; Stocks / Macro</h2>
+    </div>
+    <div class="empty">No articles today</div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI Industry</h2>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/entertainment/908339/spotify-prompted-playlists-podcasts" target="_blank" rel="noopener">Spotify&#8217;s Prompted Playlists can help you find new podcasts to listen to</a></h3>
+      <div class="summary">On Tuesday, Spotify expanded its Prompted Playlists feature to include podcasts, an update that could make it easier for Premium users to find new shows to listen to. Prompted Playlists were originally launched as a beta feature in December, but previously only worked for music. You can use the feat</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/07/firmus-the-southgate-ai-datacenter-builder-backed-by-nvidia-hits-5-5b-valuation/" target="_blank" rel="noopener">Firmus, the ‘Southgate’ AI data center builder backed by Nvidia, hits $5.5B valuation</a></h3>
+      <div class="summary">Nvidia-backed Asia AI data center provider Firmus has now raised $1.35 billion in six months.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0; Dev Tools & Ideas</h2>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf" target="_blank" rel="noopener">System Card: Claude Mythos Preview [pdf]</a></h3>
+      <div class="summary">Article URL: https://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf
+Comments URL: https://news.ycombinator.com/item?id=47679258
+Points: 278
+# Comments: 171</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.anthropic.com/glasswing" target="_blank" rel="noopener">Project Glasswing: Securing critical software for the AI era</a></h3>
+      <div class="summary">Article URL: https://www.anthropic.com/glasswing
+Comments URL: https://news.ycombinator.com/item?id=47679121
+Points: 417
+# Comments: 156</div>
+      
+    </div>
+  </section>
+
+
+  <footer>
+    <p>MAX Daily Intel — Powered by Claude Code</p>
+    <p style="margin-top:4px"><a href="index.html">All Issues</a></p>
+  </footer>
+</div>
+</body>
+</html>
