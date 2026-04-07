@@ -11,7 +11,8 @@ TZ_TAIPEI = timezone(timedelta(hours=8))
 SECTOR_COLORS = {
     "crypto": "#f7931a",
     "gold": "#ffd700",
-    "stocks": "#4caf50",
+    "tw_stocks": "#e53935",
+    "us_stocks": "#4caf50",
     "ai": "#7c4dff",
     "dev": "#00bcd4",
 }
@@ -19,7 +20,8 @@ SECTOR_COLORS = {
 SECTOR_EMOJI = {
     "crypto": "&#x1f4b0;",
     "gold": "&#x1f947;",
-    "stocks": "&#x1f4c8;",
+    "tw_stocks": "&#x1f1f9;&#x1f1fc;",
+    "us_stocks": "&#x1f1fa;&#x1f1f8;",
     "ai": "&#x1f916;",
     "dev": "&#x1f6e0;&#xfe0f;",
 }
@@ -27,7 +29,8 @@ SECTOR_EMOJI = {
 SECTOR_LABELS_ZH = {
     "crypto": "加密貨幣",
     "gold": "黃金商品",
-    "stocks": "股票總經",
+    "tw_stocks": "台股",
+    "us_stocks": "美股",
     "ai": "AI 產業",
     "dev": "開發靈感",
 }

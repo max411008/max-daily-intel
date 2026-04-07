@@ -21,8 +21,15 @@ FEEDS = {
         {"name": "Kitco News", "url": "https://www.kitco.com/feed/news"},
         {"name": "ForexLive", "url": "https://www.forexlive.com/feed/news"},
     ],
-    "stocks": [
+    "tw_stocks": [
+        {"name": "鉅亨網台股", "url": "https://news.cnyes.com/news/cat/tw_stock/rss"},
+        {"name": "經濟日報", "url": "https://money.udn.com/rssfeed/news/1001/5590?ch=money"},
+        {"name": "工商時報", "url": "https://ctee.com.tw/feed"},
+        {"name": "MoneyDJ", "url": "https://www.moneydj.com/KMDJ/RSSCenter/RSS.aspx?svc=NR&ftype=1&arg=MB010000"},
+    ],
+    "us_stocks": [
         {"name": "WSJ Markets", "url": "https://feeds.wsj.net/wsj/xml/rss/3_7014.xml"},
+        {"name": "MarketWatch", "url": "https://feeds.marketwatch.com/marketwatch/topstories/"},
         {"name": "Yahoo Finance", "url": "https://finance.yahoo.com/news/rssindex"},
     ],
     "ai": [
@@ -40,7 +47,8 @@ FEEDS = {
 SECTOR_LABELS = {
     "crypto": "Crypto / DeFi",
     "gold": "Gold / Commodities",
-    "stocks": "Stocks / Macro",
+    "tw_stocks": "台股",
+    "us_stocks": "美股",
     "ai": "AI Industry",
     "dev": "Dev Tools & Ideas",
 }
