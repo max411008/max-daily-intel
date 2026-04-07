@@ -19,7 +19,6 @@
     --text: #f0f0f0;
     --text-secondary: #a0a0a0;
     --text-dim: #666;
-    --link: #60a5fa;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
@@ -94,32 +93,37 @@
     display: block;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 16px 18px;
-    margin-bottom: 10px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
     color: var(--text);
     text-decoration: none;
     transition: all 0.2s;
     -webkit-tap-highlight-color: transparent;
   }
   .issue-card:active {
-    background: var(--card-hover);
-    transform: scale(0.99);
+    transform: scale(0.98);
+  }
+  .issue-card img {
+    width: 100%;
+    display: block;
+  }
+  .issue-card .info {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   .issue-card .date {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 4px;
   }
   .issue-card .meta {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-dim);
+    background: rgba(255,255,255,0.05);
+    padding: 3px 10px;
+    border-radius: 999px;
   }
 
   footer {
@@ -147,9 +151,13 @@
   </div>
 
   <ul class="issue-list">
-    <li><a class="issue-card" href="2026-04-08.html"><span class="date">2026/04/08（三）</span><div class="meta">8 則情報</div></a></li>
-        <li><a href="2026-04-08.html"><span class="date">2026/04/08 (Wed)</span><div class="meta">8 articles</div></a></li>
-        <li><a href="2026-04-08.html"><span class="date">2026/04/08 (Wed)</span><div class="meta">8 articles</div></a></li>
+    <li><a class="issue-card" href="2026-04-08.html">
+      <img src="cards/2026-04-08.png" alt="2026-04-08 每日情報摘要" loading="lazy">
+      <div class="info">
+        <span class="date">2026/04/08（三）</span>
+        <span class="meta">8 則情報</span>
+      </div>
+    </a></li>
     <!-- ISSUES_LIST -->
   </ul>
 
