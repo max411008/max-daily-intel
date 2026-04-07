@@ -22,7 +22,8 @@
     --text-dim: #666;
     --accent-crypto: #f7931a;
     --accent-gold: #ffd700;
-    --accent-stocks: #34d399;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
     --accent-ai: #a78bfa;
     --accent-dev: #22d3ee;
     --link: #60a5fa;
@@ -294,15 +295,16 @@
     <h1>每日情報站</h1>
     <div class="date">2026 年 4 月 8 日（三）</div>
     <div class="stats">
-      <span>8 則情報</span>
-      <span>5 大板塊</span>
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
     </div>
   </header>
 
   <nav class="nav-dots">
     <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
     <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
-    <a class="nav-dot" href="#stocks" title="股票總經" style="border-color:var(--accent-stocks)">&#x1f4c8;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
     <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
     <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
   </nav>
@@ -317,14 +319,14 @@
     <div class="news-card">
       <div class="source">CoinDesk</div>
       <h3><a href="https://www.coindesk.com/markets/2026/04/07/bitcoin-rises-past-usd69-000-as-risk-markets-reverse-big-early-losses-on-hope-for-iran-deal" target="_blank" rel="noopener">比特幣突破 69,000 美元，伊朗談判曙光帶動風險市場反彈</a></h3>
-      <div class="summary">比特幣從早盤大跌中強勢反彈，突破 69,000 美元。市場情緒轉向樂觀，主因是伊朗核談判出現正面進展，巴基斯坦提出兩週停火提案。風險資產全面回升，加密市場跟隨美股走勢。短期需關注談判結果對市場的後續影響。</div>
+      <div class="summary">比特幣從早盤大跌中強勢反彈，突破 69,000 美元。市場情緒轉向樂觀，主因是伊朗核談判出現正面進展。風險資產全面回升，短期需關注談判結果對市場的後續影響。</div>
       <div class="tags"><span class="tag">地緣政治</span><span class="tag">BTC</span><span class="tag">市場反彈</span></div>
     </div>
     <div class="news-card">
       <div class="source">CoinTelegraph</div>
       <h3><a href="https://cointelegraph.com/news/spot-bitcoin-etf-inflows-top-dollar471m-but-btc-is-pinned-under-dollar70k-here-s-why" target="_blank" rel="noopener">比特幣 ETF 單日淨流入超 4.71 億美元，但 BTC 仍卡在 7 萬以下</a></h3>
-      <div class="summary">現貨比特幣 ETF 吸金力道強勁，單日淨流入達 4.71 億美元。但價格仍無法突破 70,000 美元關卡，顯示賣壓集中在此區間。機構持續佈局，但短線可能需要更強的催化劑才能突破壓力位。</div>
-      <div class="tags"><span class="tag">ETF</span><span class="tag">機構資金</span><span class="tag">技術分析</span></div>
+      <div class="summary">現貨比特幣 ETF 吸金力道強勁，單日淨流入 4.71 億美元。但價格無法突破 70,000 美元關卡，賣壓集中於此。機構持續佈局，短線需要更強催化劑。</div>
+      <div class="tags"><span class="tag">ETF</span><span class="tag">機構資金</span></div>
     </div>
   </section>
 
@@ -336,25 +338,56 @@
     </div>
     <div class="news-card">
       <div class="source">ForexLive</div>
-      <h3><a href="https://investinglive.com/news/trump-says-in-heated-negotiations-with-iran-20260407/" target="_blank" rel="noopener">川普：正與伊朗「激烈談判中」，中東局勢牽動商品市場</a></h3>
-      <div class="summary">川普表示正與伊朗進行「激烈談判」，拒絕透露細節。伊朗方面傳出「正面審視」停火請求的訊號。黃金在地緣風險下維持高檔，若談判破裂可能推升避險需求，反之則可能回落。荷姆茲海峽通行安全仍是關鍵變數。</div>
-      <div class="tags"><span class="tag">地緣政治</span><span class="tag">避險</span><span class="tag">原油</span></div>
+      <h3><a href="https://investinglive.com/news/irans-largest-aluminium-producer-iralco-has-been-hit-in-an-airstrike-20260407/" target="_blank" rel="noopener">伊朗最大鋁廠遭空襲，地緣風險持續升溫</a></h3>
+      <div class="summary">伊朗最大鋁業公司 IRALCO 遭到空襲打擊，為中東衝突升級的最新跡象。商品市場波動加劇，黃金和原油維持高檔。供應鏈風險擴大。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">原物料</span><span class="tag">避險</span></div>
     </div>
     <div class="news-card">
       <div class="source">ForexLive</div>
-      <h3><a href="https://investinglive.com/news/economic-event-calendar-asia-april-8-2026-trump-deadline-ahead-rbnz-hold-expected-20260407/" target="_blank" rel="noopener">亞太經濟日曆：川普最後通牒將至，紐西蘭央行預期按兵不動</a></h3>
-      <div class="summary">4/8 關注重點：川普對伊朗的最後期限逼近，市場屏息以待。紐西蘭央行（RBNZ）預計維持利率不變。巴基斯坦提議伊朗開放荷姆茲海峽兩週作為停火交換條件，為市場注入一線希望。</div>
-      <div class="tags"><span class="tag">央行</span><span class="tag">總經</span><span class="tag">亞太</span></div>
+      <h3><a href="https://investinglive.com/news/media-some-good-news-is-expected-from-both-sides-soon-citing-cnn-20260407/" target="_blank" rel="noopener">川普最後通牒逼近，市場屏息以待：CNN 報導「雙方可能有好消息」</a></h3>
+      <div class="summary">CNN 引述消息稱伊朗談判可能有正面發展，為市場注入一線希望。巴基斯坦提議兩週停火，川普最後期限即將到來。黃金短期走勢取決於談判結果。</div>
+      <div class="tags"><span class="tag">央行</span><span class="tag">停火</span><span class="tag">油價</span></div>
     </div>
   </section>
 
-  <section class="sector" id="stocks">
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5590" target="_blank" rel="noopener">川普最後通牒到期，台股決戰兵推三劇本</a></h3>
+      <div class="summary">市場情緒緊繃，分析師提出三種情境：談判成功（台股反彈）、僵持延期（震盪）、破裂升級（急跌）。電子權值股成為觀察重點，外資動向是關鍵。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">權值股</span><span class="tag">外資</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5590" target="_blank" rel="noopener">4 月 8 日五件財經大事搶先看</a></h3>
+      <div class="summary">今日關注：川普伊朗最後通牒、紐西蘭央行利率決議、台灣出口數據、半導體族群表現、外資期貨佈局動向。</div>
+      <div class="tags"><span class="tag">每日重點</span><span class="tag">總經</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
     <div class="sector-header">
       <div class="indicator" style="background:#4caf50"></div>
-      <h2>&#x1f4c8; 股票總經</h2>
-      <span class="badge">0 則</span>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
     </div>
-    <div class="empty">今日暫無相關情報</div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/real-world-oil-prices-just-hit-a-record-high-signaling-acute-stress-in-the-energy-market-c157d36b" target="_blank" rel="noopener">現貨油價創歷史新高，能源市場壓力急遽升溫</a></h3>
+      <div class="summary">實際交易的現貨油價已創下歷史新高，反映中東衝突對能源供應的嚴重威脅。高油價正在推升通膨預期，對聯準會降息路徑形成壓力。</div>
+      <div class="tags"><span class="tag">油價</span><span class="tag">通膨</span><span class="tag">Fed</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/ray-dalio-says-the-iran-conflict-could-evolve-into-the-next-world-war-fa3045ef" target="_blank" rel="noopener">達里歐警告：伊朗衝突可能演變成下一場世界大戰</a></h3>
+      <div class="summary">橋水基金創辦人 Ray Dalio 發出嚴重警告，認為伊朗衝突有升級為全球性衝突的風險。投資人應重新評估投資組合的防禦性配置。</div>
+      <div class="tags"><span class="tag">Ray Dalio</span><span class="tag">風險管理</span><span class="tag">避險</span></div>
+    </div>
   </section>
 
   <section class="sector" id="ai">
@@ -366,14 +399,14 @@
     <div class="news-card">
       <div class="source">TechCrunch</div>
       <h3><a href="https://techcrunch.com/2026/04/07/firmus-the-southgate-ai-datacenter-builder-backed-by-nvidia-hits-5-5b-valuation/" target="_blank" rel="noopener">Nvidia 投資的 AI 資料中心商 Firmus 估值達 55 億美元</a></h3>
-      <div class="summary">亞洲 AI 資料中心供應商 Firmus 在半年內累計募資 13.5 億美元，估值飆升至 55 億。背後有 Nvidia 撐腰，專注於東南亞市場。反映出 AI 基礎設施需求持續爆發，亞洲正成為 AI 算力新戰場。</div>
+      <div class="summary">亞洲 AI 資料中心供應商 Firmus 半年內募資 13.5 億美元，估值飆至 55 億。Nvidia 加碼投資，反映亞洲 AI 算力需求爆發。</div>
       <div class="tags"><span class="tag">資料中心</span><span class="tag">Nvidia</span><span class="tag">東南亞</span></div>
     </div>
     <div class="news-card">
-      <div class="source">The Verge</div>
-      <h3><a href="https://www.theverge.com/entertainment/908339/spotify-prompted-playlists-podcasts" target="_blank" rel="noopener">Spotify 推出 AI 提示播放清單，用自然語言找 Podcast</a></h3>
-      <div class="summary">Spotify 將「提示播放清單」功能擴展到 Podcast 領域，用戶可以用自然語言描述想聽的內容，AI 自動推薦。這是內容平台將 AI 融入搜尋/推薦的又一案例，值得開發者思考類似的 AI 搜尋體驗。</div>
-      <div class="tags"><span class="tag">Spotify</span><span class="tag">AI 搜尋</span><span class="tag">產品設計</span></div>
+      <div class="source">TechCrunch</div>
+      <h3><a href="https://techcrunch.com/2026/04/07/intel-signs-on-to-elon-musks-terafab-chips-project/" target="_blank" rel="noopener">Intel 加入馬斯克 Terafab 晶片計畫</a></h3>
+      <div class="summary">Intel 將與 SpaceX、Tesla 合作在德州興建新半導體工廠。這是美國 AI 晶片製造本土化的重要一步，對台積電競爭格局有潛在影響。</div>
+      <div class="tags"><span class="tag">Intel</span><span class="tag">半導體</span><span class="tag">美國製造</span></div>
     </div>
   </section>
 
@@ -386,13 +419,13 @@
     <div class="news-card">
       <div class="source">Anthropic</div>
       <h3><a href="https://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf" target="_blank" rel="noopener">Claude Mythos Preview 系統卡發布 — 下一代模型架構揭秘</a></h3>
-      <div class="summary">Anthropic 發布 Claude Mythos Preview 的系統卡（System Card），詳細說明新模型的能力、限制與安全評估。這是了解下一代 Claude 架構的第一手資料，對開發者調整 prompt 策略和評估模型能力很有參考價值。</div>
+      <div class="summary">Anthropic 發布 Claude Mythos Preview 的系統卡，詳細說明新模型能力和安全評估。對開發者調整 prompt 策略很有參考價值。</div>
       <div class="tags"><span class="tag">Anthropic</span><span class="tag">Claude</span><span class="tag">模型評估</span></div>
     </div>
     <div class="news-card">
       <div class="source">Anthropic</div>
-      <h3><a href="https://www.anthropic.com/glasswing" target="_blank" rel="noopener">Project Glasswing：為 AI 時代打造關鍵軟體安全防護</a></h3>
-      <div class="summary">Anthropic 推出 Glasswing 計畫，專注於保護 AI 時代的關鍵軟體安全。隨著 AI 被用於越來越多的核心系統，確保 AI 輔助開發的程式碼安全成為重要議題。開發者應關注自身專案的 AI 安全實踐。</div>
+      <h3><a href="https://www.anthropic.com/glasswing" target="_blank" rel="noopener">Project Glasswing：AI 時代的關鍵軟體安全防護計畫</a></h3>
+      <div class="summary">Anthropic 推出 Glasswing 計畫，專注 AI 輔助開發的程式碼安全。隨著 AI 進入核心系統，安全防護成為開發者必須關注的議題。</div>
       <div class="tags"><span class="tag">安全</span><span class="tag">開源</span><span class="tag">基礎設施</span></div>
     </div>
   </section>
