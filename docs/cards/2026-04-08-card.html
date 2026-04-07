@@ -4,161 +4,241 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=400">
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     width: 400px;
-    min-height: 700px;
-    font-family: -apple-system, 'PingFang TC', sans-serif;
-    background: #0a0a0a;
-    color: #f0f0f0;
-    padding: 32px 28px;
-    position: relative;
+    height: 710px;
+    font-family: 'Noto Sans TC', -apple-system, sans-serif;
+    background: #0f0f1a;
+    color: #fff;
     overflow: hidden;
+    position: relative;
   }
 
-  /* Ambient glow */
-  body::before {
-    content: '';
+  /* Background gradient mesh */
+  .bg-mesh {
     position: absolute;
-    top: -100px;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .bg-mesh .orb1 {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    top: -80px;
     right: -100px;
+    background: radial-gradient(circle, rgba(167,139,250,0.35) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+  .bg-mesh .orb2 {
+    position: absolute;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  body::after {
-    content: '';
-    position: absolute;
-    bottom: -80px;
+    bottom: -50px;
     left: -80px;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
-    pointer-events: none;
+    background: radial-gradient(circle, rgba(34,211,238,0.25) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+  .bg-mesh .orb3 {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 40%;
+    left: 30%;
+    background: radial-gradient(circle, rgba(247,147,26,0.15) 0%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(30px);
   }
 
-  .header {
-    text-align: center;
-    margin-bottom: 24px;
+  .content {
     position: relative;
+    z-index: 1;
+    padding: 28px 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
-  .header .logo {
+
+  /* Header */
+  .brand {
     font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    color: #555;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.4);
     text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .header h1 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #fff, #aaa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     margin-bottom: 4px;
   }
-  .header .date {
+  .title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, #fff 30%, rgba(167,139,250,0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .date-line {
     font-size: 0.8rem;
-    color: #888;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-bottom: 20px;
   }
 
+  /* Divider */
   .divider {
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, #a78bfa, #22d3ee);
-    border-radius: 1px;
-    margin: 16px auto;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(167,139,250,0.5), rgba(34,211,238,0.5), transparent);
+    margin-bottom: 20px;
+  }
+
+  /* Items */
+  .items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
 
   .item {
     display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-    position: relative;
-  }
-  .item .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    margin-top: 8px;
-    flex-shrink: 0;
-  }
-  .item .sector {
-    font-size: 0.6rem;
-    color: #666;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    margin-bottom: 2px;
-  }
-  .item .title {
-    font-size: 0.82rem;
-    font-weight: 600;
-    line-height: 1.4;
-    margin-bottom: 3px;
-  }
-  .item .desc {
-    font-size: 0.7rem;
-    color: #888;
-    line-height: 1.5;
+    gap: 12px;
+    align-items: flex-start;
   }
 
+  .item .icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .item .text-block {
+    flex: 1;
+  }
+
+  .item .sector-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+    opacity: 0.7;
+  }
+
+  .item .headline {
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 2px;
+  }
+
+  .item .sub {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.4;
+  }
+
+  /* Footer */
   .footer {
-    text-align: center;
-    margin-top: 20px;
+    margin-top: auto;
     padding-top: 16px;
-    border-top: 1px solid #1e1e1e;
-    font-size: 0.65rem;
-    color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer .url {
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .footer .badge {
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.5);
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* Noise texture */
+  .noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
   }
 </style>
 </head>
 <body>
-  <div class="header">
-    <div class="logo">MAX Daily Intel</div>
-    <h1>每日情報摘要</h1>
-    <div class="date">2026 年 4 月 8 日（三）</div>
+  <div class="bg-mesh">
+    <div class="orb1"></div>
+    <div class="orb2"></div>
+    <div class="orb3"></div>
   </div>
-  <div class="divider"></div>
+  <div class="noise"></div>
 
-  <div class="item">
-    <div class="dot" style="background:#f7931a"></div>
-    <div>
-      <div class="sector">加密貨幣</div>
-      <div class="title">BTC 突破 69K，伊朗談判帶動反彈</div>
-      <div class="desc">ETF 單日淨流入 4.71 億，但仍卡在 7 萬以下</div>
+  <div class="content">
+    <div class="brand">MAX Daily Intel</div>
+    <div class="title">每日情報站</div>
+    <div class="date-line">2026 年 4 月 8 日 星期三</div>
+    <div class="divider"></div>
+
+    <div class="items">
+      <div class="item">
+        <div class="icon-box" style="background:rgba(247,147,26,0.15)">&#x1f4b0;</div>
+        <div class="text-block">
+          <div class="sector-label" style="color:#f7931a">加密貨幣</div>
+          <div class="headline">BTC 突破 69K，伊朗談判帶動風險資產反彈</div>
+          <div class="sub">ETF 單日淨流入 4.71 億，但價格仍卡在 7 萬以下</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="icon-box" style="background:rgba(255,215,0,0.12)">&#x1f947;</div>
+        <div class="text-block">
+          <div class="sector-label" style="color:#ffd700">黃金商品</div>
+          <div class="headline">川普與伊朗「激烈談判」，黃金維持高檔</div>
+          <div class="sub">荷姆茲海峽通行安全為關鍵變數</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="icon-box" style="background:rgba(167,139,250,0.15)">&#x1f916;</div>
+        <div class="text-block">
+          <div class="sector-label" style="color:#a78bfa">AI 產業</div>
+          <div class="headline">Nvidia 投資的 Firmus 估值飆至 55 億美元</div>
+          <div class="sub">亞洲 AI 資料中心需求持續爆發</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="icon-box" style="background:rgba(34,211,238,0.12)">&#x1f6e0;&#xfe0f;</div>
+        <div class="text-block">
+          <div class="sector-label" style="color:#22d3ee">開發靈感</div>
+          <div class="headline">Claude Mythos Preview 系統卡發布</div>
+          <div class="sub">Glasswing 計畫：AI 時代軟體安全防護</div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="item">
-    <div class="dot" style="background:#ffd700"></div>
-    <div>
-      <div class="sector">黃金商品</div>
-      <div class="title">川普與伊朗「激烈談判」，黃金維持高檔</div>
-      <div class="desc">荷姆茲海峽通行安全為關鍵變數</div>
+    <div class="footer">
+      <span class="url">max411008.github.io/max-daily-intel</span>
+      <span class="badge">8 則情報</span>
     </div>
-  </div>
-
-  <div class="item">
-    <div class="dot" style="background:#a78bfa"></div>
-    <div>
-      <div class="sector">AI 產業</div>
-      <div class="title">Nvidia 投資 Firmus 估值達 55 億美元</div>
-      <div class="desc">亞洲 AI 資料中心需求爆發</div>
-    </div>
-  </div>
-
-  <div class="item">
-    <div class="dot" style="background:#22d3ee"></div>
-    <div>
-      <div class="sector">開發靈感</div>
-      <div class="title">Claude Mythos Preview 系統卡發布</div>
-      <div class="desc">Glasswing 計畫：AI 時代軟體安全防護</div>
-    </div>
-  </div>
-
-  <div class="footer">
-    max411008.github.io/max-daily-intel
   </div>
 </body>
 </html>
