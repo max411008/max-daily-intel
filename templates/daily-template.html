@@ -2,155 +2,213 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAX Daily Intel — {{DATE}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — {{DATE}}</title>
 <style>
   :root {
     --bg: #0a0a0a;
-    --card-bg: #141414;
-    --card-border: #1e1e1e;
-    --text: #e0e0e0;
-    --text-dim: #888;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
     --accent-crypto: #f7931a;
     --accent-gold: #ffd700;
-    --accent-stocks: #4caf50;
-    --accent-ai: #7c4dff;
-    --accent-dev: #00bcd4;
-    --link: #64b5f6;
+    --accent-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.7;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
   }
 
   .container {
-    max-width: 680px;
+    max-width: 600px;
     margin: 0 auto;
-    padding: 24px 16px 60px;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
   }
 
+  /* Header */
   header {
     text-align: center;
-    padding: 40px 0 32px;
-    border-bottom: 1px solid var(--card-border);
-    margin-bottom: 32px;
+    padding: 32px 0 24px;
+    position: relative;
   }
 
-  header h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
   }
 
-  header .date {
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-
-  /* TOC */
-  .toc {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 32px;
-  }
-
-  .toc h2 {
-    font-size: 0.8rem;
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
     color: var(--text-dim);
     text-transform: uppercase;
-    letter-spacing: 0.1em;
     margin-bottom: 12px;
   }
 
-  .toc a {
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
     display: flex;
     align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
     gap: 8px;
-    padding: 8px 0;
-    color: var(--text);
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
     text-decoration: none;
-    font-size: 0.95rem;
-    border-bottom: 1px solid var(--card-border);
-    transition: color 0.2s;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
   }
 
-  .toc a:last-child { border-bottom: none; }
-  .toc a:hover { color: var(--link); }
-
-  .toc .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .toc .count {
-    margin-left: auto;
-    color: var(--text-dim);
-    font-size: 0.8rem;
+  .nav-dot:active {
+    transform: scale(0.92);
   }
 
   /* Sector */
   .sector {
-    margin-bottom: 36px;
+    margin-bottom: 28px;
   }
 
   .sector-header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid var(--card-border);
+    margin-bottom: 12px;
+    padding: 0 4px;
   }
 
   .sector-header .indicator {
-    width: 4px;
-    height: 24px;
+    width: 3px;
+    height: 20px;
     border-radius: 2px;
+    flex-shrink: 0;
   }
 
   .sector-header h2 {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
   }
 
   /* News card */
   .news-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    transition: border-color 0.2s;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .news-card:hover {
-    border-color: #333;
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
   }
 
   .news-card .source {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-dim);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
   }
 
   .news-card h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    line-height: 1.4;
+    margin-bottom: 6px;
+    line-height: 1.45;
   }
 
   .news-card h3 a {
@@ -158,78 +216,102 @@
     text-decoration: none;
   }
 
-  .news-card h3 a:hover {
-    color: var(--link);
-  }
-
   .news-card .summary {
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    line-height: 1.6;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
   }
 
   .news-card .tags {
-    margin-top: 10px;
+    margin-top: 8px;
     display: flex;
-    gap: 6px;
+    gap: 5px;
     flex-wrap: wrap;
   }
 
   .news-card .tag {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     padding: 2px 8px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.05);
     color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
   }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 32px 0;
-    border-top: 1px solid var(--card-border);
-    color: var(--text-dim);
-    font-size: 0.8rem;
-  }
-
-  footer a { color: var(--link); text-decoration: none; }
 
   /* Empty state */
   .empty {
     text-align: center;
     color: var(--text-dim);
-    padding: 20px;
-    font-style: italic;
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
   }
 
-  /* Responsive */
-  @media (max-width: 480px) {
-    header h1 { font-size: 1.4rem; }
-    .container { padding: 16px 12px 40px; }
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
   }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>MAX Daily Intel</h1>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
     <div class="date">{{DATE_DISPLAY}}</div>
+    <div class="stats">
+      <span>{{TOTAL_COUNT}} 則情報</span>
+      <span>5 大板塊</span>
+    </div>
   </header>
 
-  <nav class="toc">
-    <h2>Today's Sectors</h2>
-    <a href="#crypto"><span class="dot" style="background:var(--accent-crypto)"></span>Crypto / DeFi<span class="count">{{CRYPTO_COUNT}}</span></a>
-    <a href="#gold"><span class="dot" style="background:var(--accent-gold)"></span>Gold / Commodities<span class="count">{{GOLD_COUNT}}</span></a>
-    <a href="#stocks"><span class="dot" style="background:var(--accent-stocks)"></span>Stocks / Macro<span class="count">{{STOCKS_COUNT}}</span></a>
-    <a href="#ai"><span class="dot" style="background:var(--accent-ai)"></span>AI Industry<span class="count">{{AI_COUNT}}</span></a>
-    <a href="#dev"><span class="dot" style="background:var(--accent-dev)"></span>Dev Tools & Ideas<span class="count">{{DEV_COUNT}}</span></a>
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#stocks" title="股票總經" style="border-color:var(--accent-stocks)">&#x1f4c8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
   </nav>
 
   {{SECTORS_HTML}}
 
   <footer>
-    <p>MAX Daily Intel — Powered by Claude Code</p>
-    <p style="margin-top:4px"><a href="index.html">All Issues</a></p>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
   </footer>
 </div>
 </body>

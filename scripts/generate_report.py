@@ -21,22 +21,32 @@ SECTOR_EMOJI = {
     "gold": "&#x1f947;",
     "stocks": "&#x1f4c8;",
     "ai": "&#x1f916;",
-    "dev": "&#x1f6e0;",
+    "dev": "&#x1f6e0;&#xfe0f;",
+}
+
+SECTOR_LABELS_ZH = {
+    "crypto": "加密貨幣",
+    "gold": "黃金商品",
+    "stocks": "股票總經",
+    "ai": "AI 產業",
+    "dev": "開發靈感",
 }
 
 
 def generate_sector_html(sector_id, label, articles, color):
     """Generate HTML for one sector section."""
     emoji = SECTOR_EMOJI.get(sector_id, "")
+    label_zh = SECTOR_LABELS_ZH.get(sector_id, label)
     html = f'''
   <section class="sector" id="{sector_id}">
     <div class="sector-header">
       <div class="indicator" style="background:{color}"></div>
-      <h2>{emoji} {label}</h2>
+      <h2>{emoji} {label_zh}</h2>
+      <span class="badge">{len(articles)} 則</span>
     </div>
 '''
     if not articles:
-        html += '    <div class="empty">No articles today</div>\n'
+        html += '    <div class="empty">今日暫無相關情報</div>\n'
     else:
         for a in articles:
             source = a.get("source", "")
@@ -71,7 +81,9 @@ def generate_report(analyzed_data, date_str):
     with open(template_path, 'r') as f:
         template = f.read()
 
-    date_display = datetime.strptime(date_str, "%Y-%m-%d").strftime("%B %d, %Y")
+    dt = datetime.strptime(date_str, "%Y-%m-%d")
+    weekdays_zh = ['一', '二', '三', '四', '五', '六', '日']
+    date_display = f"{dt.year} 年 {dt.month} 月 {dt.day} 日（{weekdays_zh[dt.weekday()]}）"
 
     sectors_html = ""
     counts = {}
@@ -91,6 +103,8 @@ def generate_report(analyzed_data, date_str):
     html = html.replace("{{STOCKS_COUNT}}", str(counts.get("stocks", 0)))
     html = html.replace("{{AI_COUNT}}", str(counts.get("ai", 0)))
     html = html.replace("{{DEV_COUNT}}", str(counts.get("dev", 0)))
+    total = sum(counts.values())
+    html = html.replace("{{TOTAL_COUNT}}", str(total))
 
     return html
 
