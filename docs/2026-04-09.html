@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-04-09</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 4 月 9 日（四）</div>
+    <div class="stats">
+      <span>75 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">27 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/visa-launches-ai-commerce-platform-to-power-autonomous-agent-payments?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Visa unveils commerce platform enabling autonomous AI shopping</a></h3>
+      <div class="summary">Visa is rolling out a platform that helps merchants make their product inventories discoverable and purchasable by AI agents.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/09/bitcoin-under-usd71-000-eth-sol-xrp-drop-as-iran-ceasefire-frays-within-48-hours-of-being-signed" target="_blank" rel="noopener">Bitcoin under $71,000, ETH, SOL, XRP drop as Iran ceasefire frays within 48 hours of being signed</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396804/bitcoin-depot-3-7-million-stolen?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Bitcoin Depot reveals $3.7 million stolen from company wallets in security breach</a></h3>
+      <div class="summary">The crypto ATM operator has suffered a security breach that resulted in 50.9 BTC being drained from its company wallets.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/tech/2026/04/09/bitcoin-gets-first-working-prototype-of-quantum-resistant-wallet-rescue-tool" target="_blank" rel="noopener">Bitcoin gets its first working prototype of quantum-resistant wallet rescue tool</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/north-korea-it-worker-hacked-exposing-fraud-scam-operation?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Counterhacker exposes DPRK unit that made $1M a month working IT jobs</a></h3>
+      <div class="summary">The North Korean IT workers coordinated crypto payments through a server using a shared, easy-to-guess password “123456.”</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396785/morgan-stanley-msbt-bitcoin-etf-volume?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Morgan Stanley’s MSBT bitcoin ETF logs $34 million in first-day volume</a></h3>
+      <div class="summary">Morgan Stanley Bitcoin Trust's first-day volume exceeded the $30 million estimate from Bloomberg Senior Analyst Eric Balchunas.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-tops-dollar72k-after-dollar280m-liquidation-targets-bears-will-the-fragile-truce-hold?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin tops $72K after $280M liquidation targets bears: Will the ‘fragile truce’ hold?</a></h3>
+      <div class="summary">Bitcoin and global markets rallied after the US and Iran announced a ceasefire, but data show BTC bears have not closed most of their</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396724/crypto-card-boom-600-million-monthly-volume-usdc-gains-ground-usdt?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Crypto card boom hits $600 million monthly volume as USDC gains ground on USDT</a></h3>
+      <div class="summary">Stablecoin composition of card volume is worth watching as a proxy for geographic and demographic shifts in users.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396794/canary-capital-files-spot-pepe-etf-application-with-sec?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Canary Capital files spot PEPE ETF application with SEC</a></h3>
+      <div class="summary">Last year, Canary also filed an application to list a fund tracking the price of MOG, a then lesser-known memecoin.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/what-happened-in-crypto-today?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Here’s what happened in crypto today</a></h3>
+      <div class="summary">Need to know what happened in crypto today? Here is the latest news on daily trends and events impacting Bitcoin price, blockchain, DeFi, NFTs, Web3 and crypto regulation.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396788/bored-ape-yacht-club-yuga-labs-settles-appropriation-artist-ryder-ripps-trademark?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Bored Ape Yacht Club maker Yuga Labs settles with ‘expressive appropriation artist’ Ryder Ripps in long-running trademark case</a></h3>
+      <div class="summary">Bored Ape Yacht Club maker Yuga Labs and the defendants Ripps and business partner Jeremy Cahen have agreed to settle.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/sec-enforcement-director-questions-crypto?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">US SEC taps new enforcement chief amid questions over predecessor's exit</a></h3>
+      <div class="summary">David Woodcock steps into the role as US senators await answers to questions on the agency’s dropping lawsuits against Justin Sun and several crypto</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/08/morgan-stanley-s-bitcoin-etf-draws-usd34-million-on-day-one" target="_blank" rel="noopener">Morgan Stanley’s bitcoin ETF draws $34 million on day one</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396778/polygon-labs-seeking-raise-up-to-100-million-stablecoin-payments-business-report?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Polygon Labs seeking to raise up to $100 million for stablecoin payments business: report</a></h3>
+      <div class="summary">The crypto firm aims to sell "between $50 million and $100 million in equity" in the new stablecoin payments business.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-quantum-risk-3-5-years-bernstein?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin has 3–5 years to prepare for quantum risk, says Bernstein</a></h3>
+      <div class="summary">Bitcoin faces a future quantum threat, but Bernstein analysts say risks are concentrated in older wallets and exposed keys, and unlikely to cause existenti</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/treasury-genius-act-rule-illicit-finance?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">US Treasury moves forward with GENIUS Act, focusing on illicit finance</a></h3>
+      <div class="summary">The proposed rule would direct payment stablecoin issuers to establish AML/CFT and sanctions compliance programs, and be able to “block, freeze, and r</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/price-predictions-4-8-btc-eth-xrp-bnb-sol-doge-hype-ada-bch-link?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Price predictions 4/8: BTC, ETH, XRP, BNB, SOL, DOGE, HYPE, ADA, BCH, LINK</a></h3>
+      <div class="summary">Bitcoin’s relief rally is facing selling pressure near $72,000, but technical charts suggest a bullish bias. Will altcoins follow in BTC’s footste</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396770/sec-appoints-david-woodcock-new-enforcement-director-amid-concerns-over-previous-lead-crypto-cases?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">SEC appoints David Woodcock as new enforcement director amid concerns over previous lead, agency’s crypto cases</a></h3>
+      <div class="summary">The SEC has appointed a new enforcement director following the departure of its former chief, a transition that raised concerns.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/08/michael-saylor-says-bitcoin-has-likely-bottomed-quantum-risk-overblown" target="_blank" rel="noopener">Michael Saylor says bitcoin has likely bottomed, quantum risk overblown</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396742/new-xfunds-etf-toggles-between-bitcoin-overnight-treasuries-day?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">New XFUNDS ETF toggles between bitcoin overnight and Treasuries by day</a></h3>
+      <div class="summary">NGHT gives investors exposure to overnight bitcoin price swings, switching to less volatile Treasuries during U.S. trading hours.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-price-chart-targets-90k-aggressively-buy-on-binance?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin price chart targets $90K as traders ‘aggressively’ buy on Binance</a></h3>
+      <div class="summary">Bitcoin gained momentum as data showed buyers are starting to dominate volumes on Binance, with a $90,000 BTC price target on their radar.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-demand-returns-giving-bulls-fuel-to-turn-dollar72k-to-support?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin demand returns, giving bulls fuel to turn $72K to support</a></h3>
+      <div class="summary">Bitcoin buy-side activity in the spot and futures markets supports the current rally toward $72,000, while short-term holders eased up on selling, increasi</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396745/stablecoin-volumes-onchain-payments-rival-mastercard-visa-chainalysis?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Stablecoin volumes could hit $1.5 quadrillion by 2035 as onchain payments begin to rival Mastercard, Visa: Chainalysis</a></h3>
+      <div class="summary">Stablecoins volumes could rival Visa and Mastercard, processing up to $1.5 quadrillion annually by 2035 per a new Chainalysis report.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/business/2026/04/08/yuga-labs-settles-bored-ape-nft-lawsuit-ending-fight-over-alleged-copycat-tokens" target="_blank" rel="noopener">Yuga Labs settles Bored Ape NFT lawsuit, ending fight over alleged copycat tokens</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/396746/us-treasury-unveils-proposed-stablecoin-rules-targeting-money-laundering-sanctions?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">US Treasury unveils proposed stablecoin rules targeting money laundering, sanctions</a></h3>
+      <div class="summary">The U.S. Treasury's sanctions agency and its financial crimes bureau released a joint rule proposal for stablecoin issuers.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/policy/2026/04/08/south-korea-proposes-cryptocurrency-law-with-bank-style-rules-for-stablecoins" target="_blank" rel="noopener">South Korea proposes cryptocurrency law with bank-style rules for stablecoins</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/tech/2026/04/08/the-protocol-bernstein-says-quantum-threat-to-bitcoin-is-real-but-manageable" target="_blank" rel="noopener">The Protocol: Bernstein says quantum threat to Bitcoin is real but manageable</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">13 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/japan-reportedly-considering-releasing-about-20-days-of-additional-oil-reserves-20260409/" target="_blank" rel="noopener">Japan reportedly considering releasing about 20 days of additional oil reserves</a></h3>
+      <div class="summary">There's not much other detail from the report, besides noting that the Japanese government is said to be mulling over releasing an additional amount of oil from its reserves. The timing could be as early as May, with about 20 days' worth of oil to be released. That according to sources familiar with...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-asia-pacific-fx-news-wrap-shaky-ceasefire-usd-claws-some-back-20260409/" target="_blank" rel="noopener">investingLive Asia-Pacific FX news wrap: Shaky ceasefire, USD claws some back</a></h3>
+      <div class="summary">Goldman cuts Q2 oil to $90/$87, keeps $82/$80 Brent and $77/$75 WTI outlookAustralia to underwrite fuel imports via Ampol, Viva amid supply risks<a href="https://investinglive.com/commodities/perth-mint-gold-silver</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-blasts-nato-after-rutte-meeting-raises-doubts-over-alliance-unity-20260409/" target="_blank" rel="noopener">Trump blasts NATO after Rutte meeting, raises doubts over alliance unity</a></h3>
+      <div class="summary">Trump lashes NATO as alliance fractures widen over Iran conflict responseSummary:Trump criticises NATO after meeting with Rutte
+
+Accuses allies of failing to support Iran war effort
+
+Renews rhetoric on Greenland tensions
+
+No clear commitment to remain in NATO
+
+Reports of potential US troop redeploym...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-americas-fx-news-wrap-8-aprceasefire-relief-lifts-stocks-oil-and-usd-lower-20260408/" target="_blank" rel="noopener">investingLive Americas FX news wrap 8 Apr:Ceasefire relief lifts stocks, oil and USD lower</a></h3>
+      <div class="summary">Cutthroat optimization is the hidden risk in Mythos and future AI modelsIran parliamentary speaker says three clauses of the ceasefire agreement already broken<a href="https://investinglive.com/news/wi</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-eco-adviser-hassett-remember-him-admits-oil-price-spike-will-raise-inflation-20260408/" target="_blank" rel="noopener">Trump eco adviser Hassett (remember him?) admits oil price spike will raise inflation</a></h3>
+      <div class="summary">Kevin Hassett is Director of the National Economic Council in Trump's White House. Says the oil price spike will raise the CPITries to soften the blow saying it'll be a 'one time' thing. Yeah, right. Info via Fox. 
+                            This article was written by Eamonn Sheridan at investingl...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/economic-and-event-calendar-in-asia-thursday-april-9-2026-eyes-again-on-the-war-makers-20260408/" target="_blank" rel="noopener">Economic and event calendar in Asia Thursday, April 9, 2026. Eyes again on the war makers</a></h3>
+      <div class="summary">Its all about the ceasefire, the ebb and flow of headlines, the cracks and chasms, news around this will be the driver during the session here. 
+                            This article was written by Eamonn Sheridan at investinglive.com.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/iran-parliamentary-speaker-says-three-clauses-of-the-ceasefire-agreement-already-broken-20260408/" target="_blank" rel="noopener">Iran parliamentary speaker says three clauses of the ceasefire agreement already broken</a></h3>
+      <div class="summary">Statement from MB Ghalibaf:Statement on the violation of three key clauses of the 10-Point Proposal (Agreed Framework) before the start of the negotiationsThe deep historical distrust we hold toward the United States stems from its repeated violations of all forms of commitments — a pattern that has...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/will-fighting-in-lebanon-derail-the-ceasefire-20260408/" target="_blank" rel="noopener">Will fighting in Lebanon derail the ceasefire?</a></h3>
+      <div class="summary">It looks like Israel isn't going to abide by any ceasefire in Lebanon and that seems to be ok with the United States. What's not clear is whether it's ok with Iran.The statement from Pakistan's Prime Minister yesterday said:With the greatest humility, I am pleased to announce that the Islamic Republ...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/white-house-iran-put-forward-a-more-reasonable-and-condensed-plan-20260408/" target="_blank" rel="noopener">White House: Iran put forward a more reasonable and condensed plan</a></h3>
+      <div class="summary">Some headlines from the White House press briefing:Iran can no longer distribute weapons to its proxiesIran asked for an agreed to a ceasefireIran has agreed to open HormuzIran's original plan was discardedIran then put forward a more-reasonable planTrump's red lines have not changedWe've seen an up...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-treasury-auctions-off-39-billion-of-10-year-notes-at-a-high-yield-of-4282-20260408/" target="_blank" rel="noopener">U.S. Treasury auctions off $39 billion of 10 year notes at a high yield of 4.282%</a></h3>
+      <div class="summary">US treasury auctioned off $39 billion of 10 year notes at a high yield of 4.282%High-yield 4.282%WI level at the time of the auction 4.280%Tail 0.2 basis points versus 6 auction average of 0.3 basis points.Bid to cover 2.43X versus average 2.49XDirects 23.9% versus average 19.2%.Indirect 65.3% versu...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/the-us-treasury-to-auction-off-39-billion-of-10-year-notes-at-1-pm-20260408/" target="_blank" rel="noopener">The US  treasury to auction off $39 billion of 10 year notes at 1 PM</a></h3>
+      <div class="summary">The US Treasury will auction $39 billion of 10-year notes at 1 PM ET, with the long-end coming into the sale after a sharp rally in bonds that has pushed yields lower toward the 4.25% area. That move lower in yields—helped by easing geopolitical tensions and softer inflation expectations—could suppo...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/hezbollah-says-israels-attacks-on-lebanon-affirms-is-right-to-response-20260408/" target="_blank" rel="noopener">Hezbollah says Israel's attacks on Lebanon affirms its right to a response</a></h3>
+      <div class="summary">Hezbollah is a saying that Israel's attacks on Lebanon affirms its right for a response, and only strengthens the groups determination to resist and confront the enemy. Israel is saying that they confirm the attack of a Hezbollah commander in BeirutHezbollah is a Lebanon-based Shiite political and m...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-there-is-only-one-list-of-agreed-points-and-it-will-be-discussed-in-private-20260408/" target="_blank" rel="noopener">Trump: There is only one list of agreed points and it will be discussed in private</a></h3>
+      <div class="summary">It's not at all clear what the basis for the ceasefire is and what are the points that will lead to a lasting agreement. That seems to be angering Trump, who is lashing out at the media again. More importantly, he said that the peace will be discussed behind closed doors.Numerous Agreements, Lists, ...</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">15 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9431154" target="_blank" rel="noopener">AI 帶動高速光模組需求大增 法人看好三檔 PCB 供應鏈</a></h3>
+      <div class="summary">人工智慧（AI）伺服器帶動高速光模組需求大增，法人預期800GbE、1.6TbE 光模組印刷電路板（PCB）出貨量將高速增長，2026年800GbE速率以上光模組PCB滲透率達67%，點名欣興（3037）、臻鼎KY（4958）、華通（2313）等三檔可望受惠。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9431150" target="_blank" rel="noopener">台股午盤由紅翻黑！專家解析「擇優布局」策略</a></h3>
+      <div class="summary">台股9日午盤表現震盪，截至中午12點，大盤由紅翻黑，早盤雖以34,884點開高，但盤中最低達34,617點，高低點震盪達267點；盤面上，銅箔基板、PCB、矽光子、特用化學、面板、光電設備等紛紛走強。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/11074/9431148" target="_blank" rel="noopener">立凱電營收／遷廠工程延宕業績下滑 3月年減78.41%</a></h3>
+      <div class="summary">鋰智財服務商立凱-KY（5227）公告2026年3月合併營收為0.11億元，年減78.41%，公司表示近期營收受到遷廠電力工程延宕所致較去年同期下滑。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9431146" target="_blank" rel="noopener">台股逼近35,000點 還有這些低位階族群可以買…</a></h3>
+      <div class="summary">台股在大漲1,531點，創史上第二大單日漲點後，9日走勢震盪，但分析師則是認為，「再破底機率不高」，台股最壞已過，第2季有機會創高，不過， 因為地緣政治風險的變數還未完全解除，預期大盤表現可能偏向「往上區間震盪」的型態；分析師強調，看好還有四大低位階族群可以布局。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9431144" target="_blank" rel="noopener">台股震盪中閃見42千金！18檔再寫天價 金像電領3猛將強鎖漲停</a></h3>
+      <div class="summary">台股9日震盪中仍見強勢千金軍團，盤中最高閃現42千金，再創歷史新紀錄，其中18檔個股創新高。金像電（2368）、雍智科技（6683）、高力（8996）不僅刷新天價，且高掛漲停，波若威亦頻亮紅燈，成為盤面焦點。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5710/9431095" target="_blank" rel="noopener">宏碁營收／AI 實力驅動 今年首季創同期歷史新高</a></h3>
+      <div class="summary">雲端及AI服務商宏碁資訊（6811）受惠於企業對AI落地應用的長期需求持續升溫，帶動整體動能穩步成長，推升今年第一季營收表現亮眼。2026年第一季營收達29.5億元，較去年同期25.3億元成長16.6 %，並創下同期歷史新高紀錄，展現具穩健及成長性的營運能力，其中三大產品線：雲端及大量軟體服務、應用開發及其他軟體服務，以及加值服務，營收皆呈現較去年同期成長，顯示市場對AI與雲端解決方案的單一導入需求，邁向多元整合與規模化發展。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5710/9431079" target="_blank" rel="noopener">辜仲諒躍居台泥單一第一大股東 台泥昨日大漲今日拉回</a></h3>
+      <div class="summary">台泥（1101）8日公告，收到中信金大股東辜仲諒對台泥的個人持股變動申報，辜仲諒取得台泥股票逾40.6萬張，擁有超過5%股權，躍居台泥單一第一大股東。台泥9日盤中小跌逾1%，昨日突破年線後，今日小跌休息。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5710/9430961" target="_blank" rel="noopener">華固營收／第1季42.06億 年增366倍</a></h3>
+      <div class="summary">華固（2548）9日公告，3月營收19.65億元，年增81,838.77%；累計今年第1季營收42.06億元，年增36,624.45%。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430946" target="_blank" rel="noopener">辛耘業績展望持續正向 盤中股價攻上漲停</a></h3>
+      <div class="summary">半導體設備與材料廠辛耘（3583）今年業績展望持續正向，近期股價表現強勁，9日盤中股價攻上漲停。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430939" target="_blank" rel="noopener">CPO 點火！友達鎖漲停封人氣王 富采、鼎元齊亮燈 群創重返月線</a></h3>
+      <div class="summary">面板雙虎題材全面點火！在景氣回溫與AI光通訊題材加持下，友達（2409）、群創（3481）9日盤中同步走強，友達更於開盤約半小時即攻上漲停鎖死，帶動光電族群強勢上攻，成為震盪盤面中最強主流焦點。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430874" target="_blank" rel="noopener">觀望美伊談判結果 台股平盤震盪整理</a></h3>
+      <div class="summary">美伊同意停火2週，激勵台股週三大漲1531.56點，創史上第2大收盤漲點。惟談判變數仍多，投資人觀望結果，台股今天早盤在...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430865" target="_blank" rel="noopener">PCB 載板 CCL 再掀比價行情 金像電重返千元俱樂部提振信心</a></h3>
+      <div class="summary">PCB印刷電路板族群業績報喜，載板廠與銅箔基板CCL廠商今日股價再掀比價行情，伺服板龍頭廠商金像電（2368）今日股價順利重返千元俱樂部，提振PCB族群信心。載板四家廠商欣興（3037）、景碩（3189）、臻鼎（4958）以及南電（8046）也同步上攻比價，同樣情況也發生在四家銅箔基板廠商台光電（2383）、台燿（6274）、聯茂（6213）與騰輝（6672）同步強勢。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5710/9430859" target="_blank" rel="noopener">持續找買家 中石化要賣京華廣場土地 股價走弱</a></h3>
+      <div class="summary">中石化（1314）放棄繼續蓋京華廣場，董事會8日宣布，通過京華廣場土地資產處分策略案，宣告將賣京華城土地。但因該土地因涉及前台北市長柯文哲政治獻金案，目前仍在司法扣押狀態，中石化昨日表示，程序上要排除目前的扣押，才可能進行銷售。中石化9日股價盤中下跌逾6%，跌破季線。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430856" target="_blank" rel="noopener">主動掌握穩健、衝鋒型英雄企業 這檔 ETF 優化台股市值投資</a></h3>
+      <div class="summary">統一投信繼00981A後，將推出統一台股升級50主動式ETF（00403A），預計4月22至24日募集繳款，投資主軸為「進化版」市值投資。00403A將以台股市值前50名的穩健型英雄企業為基石，並從台股市值排名在50以後的個股中，精選具備成長潛力的衝鋒型企業，對投資組合汰弱增強，為投資人爭取超額報酬。</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9430789" target="_blank" rel="noopener">外資給力 金像電股價距漲停板價一步之遙</a></h3>
+      <div class="summary">美系券商調升金像電（2368）目標價，金像電早盤股價衝高到1,090元距漲停板1,095元僅一步之遙。</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">12 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/i-plan-to-exit-corporate-life-im-50-and-have-400-000-my-wife-is-a-teacher-can-i-retire-at-55-d296dba0?mod=mw_rss_topstories" target="_blank" rel="noopener">‘I plan to exit corporate life’: I’m 50 and have $400,000. My wife is a teacher. Can I retire at 55?</a></h3>
+      <div class="summary">“I would like to stop working in about five years to spend more time with our child and support my wife.”</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/the-s-p-500-smashed-back-above-2-key-moving-averages-in-a-rare-display-of-strength-heres-what-history-shows-happens-next-7141e5fe?mod=mw_rss_topstories" target="_blank" rel="noopener">S&P 500 smashes back above two key moving averages, in a rare display of strength. Here’s what history shows happens next.</a></h3>
+      <div class="summary">What a difference a day makes.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/this-is-an-overlooked-catastrophe-why-do-so-many-hospitals-not-accept-medicare-advantage-for-cancer-patients-130c1a13?mod=mw_rss_topstories" target="_blank" rel="noopener">‘This is an overlooked catastrophe’: Why do so many hospitals not accept Medicare Advantage for cancer patients?</a></h3>
+      <div class="summary">“Insurers have pushed certain cancer-care centers out of network before the end of the calendar or policy year.”</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/i-paid-the-10-entry-fee-a-friend-picked-my-march-madness-bracket-ethically-do-i-owe-her-half-of-my-150-winnings-88663339?mod=mw_rss_topstories" target="_blank" rel="noopener">‘I paid the $10 entry fee’: A friend picked my March Madness bracket. Ethically, do I owe her half of my $150 winnings?</a></h3>
+      <div class="summary">“There was no real expectation of splitting the winnings.”</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/they-essentially-have-a-blackmail-card-up-their-sleeve-a-look-at-irans-plan-to-charge-tankers-to-use-the-strait-of-hormuz-74e01aa2?mod=mw_rss_topstories" target="_blank" rel="noopener">‘They essentially have a blackmail card up their sleeve’: A look at Iran’s plan to charge tankers to use the Strait of Hormuz</a></h3>
+      <div class="summary">Iran’s plans to impose tolls on tankers passing through the Strait of Hormuz is turning the key waterway into a financial battlefield.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/i-feel-overwhelmed-im-56-and-have-a-60-000-sep-ira-is-it-too-late-for-me-3671eba9?mod=mw_rss_topstories" target="_blank" rel="noopener">‘I feel overwhelmed’: I’m 56 and only have $60,000 in my IRA. Is it too late for me?</a></h3>
+      <div class="summary">“My husband has a pension, but I worry that if he passes before me, I could be left with nothing.”</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/how-the-taco-trade-went-from-a-light-hearted-wall-street-joke-to-a-serious-moneymaker-8135a7b1?mod=mw_rss_topstories" target="_blank" rel="noopener">How the ‘TACO’ trade went from a light-hearted Wall Street joke to a serious moneymaker</a></h3>
+      <div class="summary">Since the start of President Trump’s second term, nine of the 10 top days for the S&amp;P 500 have been spurred by de-escalation either involving tariffs or Iran.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/corona-brewer-says-shoppers-are-going-for-cheaper-beer-and-wine-as-it-grows-more-cautious-on-demand-d3c89aed?mod=mw_rss_topstories" target="_blank" rel="noopener">Corona brewer says shoppers are going for cheaper beer and wine, as it grows more cautious on demand</a></h3>
+      <div class="summary">Constellation Brands pulled its longer-term outlook, after executives last year said concerns about ICE raids and higher prices were keeping Hispanic consumers from going out.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/intels-stock-soars-to-a-five-year-high-this-is-whats-driving-its-massive-momentum-61e91f5b?mod=mw_rss_topstories" target="_blank" rel="noopener">Intel’s stock soars to a five-year high. This is what’s driving its massive momentum.</a></h3>
+      <div class="summary">Intel was the second-best performer in the S&amp;P 500 on Wednesday.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/bonds-may-be-the-real-winner-now-that-the-world-economy-has-sidestepped-a-historic-oil-crisis-4797c6ff?mod=mw_rss_topstories" target="_blank" rel="noopener">Bonds may be the real winner now that the world economy has sidestepped a historic oil crisis</a></h3>
+      <div class="summary">The Iran crisis threatened “the largest geopolitical oil supply disruption in history,” the Dallas Fed warned.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/research/reports/ARGUS_46668_MarketUpdate_1775669614000?yptr=yahoo&ncid=yahooproperties_plusresear_nm5q6ze1cei" target="_blank" rel="noopener">Market Update: NFLX, DAL</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/economy/policy/articles/major-alcohol-distributor-shuts-down-161700316.html" target="_blank" rel="noopener">Major alcohol distributor shuts down operations, lays off over 500 workers</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">8 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/909031/google-gemini-notebooks-notebooklm" target="_blank" rel="noopener">Gemini gets notebooks to help you organize projects</a></h3>
+      <div class="summary">Google's Gemini is getting a feature called "notebooks" to help you organize things about certain topics in a single place while using the AI chatbot, the company announced on Wednesday. You can pull in things like files, past conversations, and custom instructions into notebooks that Gemini can the...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/08/poke-makes-ai-agents-as-easy-as-sending-a-text/" target="_blank" rel="noopener">Poke makes using AI agents as easy as sending a text</a></h3>
+      <div class="summary">Poke brings AI agents to everyday users via text message by handling tasks and automations without complex setup, apps, or technical know-how.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Ars Technica AI</div>
+      <h3><a href="https://arstechnica.com/security/2026/04/iran-linked-hackers-disrupt-operations-at-us-critical-infrastructure-sites/" target="_blank" rel="noopener">Iran-linked hackers disrupt operations at US critical infrastructure sites</a></h3>
+      <div class="summary">As the US and Israel's war has ramped up, so too have hacks on US industrial sites.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/column/908880/openai-made-economic-proposals-heres-what-dc-thinks-of-them" target="_blank" rel="noopener">OpenAI made economic proposals — here’s what DC thinks of them</a></h3>
+      <div class="summary">Happy ceasefire day and welcome to Regulator, a newsletter for Verge subscribers about Big Tech's rocky journey through the world of politics. If you're not a subscriber yet, you can do so here, but my only request is that you sign up before Donald Trump decides to revisit his previous threats towar...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/08/aws-boss-explains-why-investing-billions-in-both-anthropic-and-openai-is-an-ok-conflict/" target="_blank" rel="noopener">AWS boss explains why investing billions in both Anthropic and OpenAI is an OK conflict</a></h3>
+      <div class="summary">AWS has an ingrained culture of handling competition, he explained, because the cloud giant also competes with its partners.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/08/tubi-is-the-first-streamer-to-launch-a-native-app-within-chatgpt/" target="_blank" rel="noopener">Tubi is the first streamer to launch a native app within ChatGPT</a></h3>
+      <div class="summary">Tubi becomes the first streaming service to offer an app integration within ChatGPT, the AI chatbot that millions of users turn to for answers.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/908769/meta-muse-spark-ai-model-launch-rollout" target="_blank" rel="noopener">Meta is reentering the AI race with a new model called Muse Spark</a></h3>
+      <div class="summary">Meta Superintelligence Labs is launching its first model since Mark Zuckerberg spent billions overhauling the company's AI efforts. Called Muse Spark, the model now powers the Meta AI app and the Meta AI website in the US, per the company's announcement. In the coming weeks, Meta says, it will appea...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/08/astropads-workbench-reimagines-remote-desktop-for-ai-agents-not-it-support/" target="_blank" rel="noopener">Astropad’s Workbench reimagines remote desktop for AI agents, not IT support</a></h3>
+      <div class="summary">Astropad’s Workbench lets users remotely monitor and control AI agents on Mac Minis from iPhone or iPad, with low-latency streaming and mobile access.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">0 則</span>
+    </div>
+    <div class="empty">今日暫無相關情報</div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
