@@ -141,12 +141,43 @@ def update_index(date_str, total_articles):
     # Upsert the new one
     existing[date_str] = total_articles
 
-    # Build sorted (desc) block
+    # Detect which dates already have a rich card via existing <a class="issue-card">
+    rich_cards = set(re.findall(r'<a class="issue-card" href="(\d{4}-\d{2}-\d{2})\.html"', content))
+
+    # Build sorted (desc) block — emit rich card for each entry. If a card png exists,
+    # use it; otherwise inline an SVG gradient placeholder so layout matches.
+    weekdays_zh = ['一', '二', '三', '四', '五', '六', '日']
+    docs_dir = os.path.join(os.path.dirname(__file__), '..', 'docs')
     entries = []
     for d in sorted(existing.keys(), reverse=True):
-        display = datetime.strptime(d, "%Y-%m-%d").strftime("%Y/%m/%d (%a)")
+        if d in rich_cards:
+            continue  # preserve hand-curated rich card already in HTML
+        dt = datetime.strptime(d, "%Y-%m-%d")
+        display = f"{dt.year}/{dt.month:02d}/{dt.day:02d}（{weekdays_zh[dt.weekday()]}）"
+        png_rel = f"cards/{d}.png"
+        if os.path.exists(os.path.join(docs_dir, png_rel)):
+            img_src = png_rel
+        else:
+            # Inline SVG placeholder — gradient + emoji + date label
+            day_label = f"{dt.month}/{dt.day}"
+            svg = (
+                "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 220'>"
+                "<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>"
+                "<stop offset='0%' stop-color='%23a78bfa'/><stop offset='100%' stop-color='%2322d3ee'/>"
+                "</linearGradient></defs>"
+                "<rect width='600' height='220' fill='url(%23g)'/>"
+                f"<text x='30' y='90' fill='white' font-size='32' font-weight='700' font-family='-apple-system,sans-serif'>MAX Daily Intel</text>"
+                f"<text x='30' y='160' fill='white' font-size='72' font-weight='800' font-family='-apple-system,sans-serif'>{day_label}</text>"
+                "<text x='30' y='200' fill='rgba(255,255,255,0.9)' font-size='18' font-family='-apple-system,sans-serif'>加密 · 黃金 · 股票 · AI · 開發</text>"
+                "</svg>"
+            )
+            img_src = "data:image/svg+xml;utf8," + svg
         entries.append(
-            f'    <li><a href="{d}.html"><span class="date">{display}</span><div class="meta">{existing[d]} articles</div></a></li>'
+            f'    <li><a class="issue-card" href="{d}.html">'
+            f'<img src="{img_src}" alt="{d} 每日情報摘要" loading="lazy">'
+            f'<div class="info"><span class="date">{display}</span>'
+            f'<span class="meta">{existing[d]} 則情報</span></div>'
+            f'</a></li>'
         )
     block = '\n'.join(entries) + '\n    <!-- ISSUES_LIST -->'
     content = content.replace('<!-- ISSUES_LIST -->', block)
