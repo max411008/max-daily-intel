@@ -122,30 +122,35 @@ def update_index(date_str, total_articles):
     with open(index_path, 'r') as f:
         content = f.read()
 
-    # Collect existing entries of form: <li><a href="YYYY-MM-DD.html">... </a></li>
-    # (the simple-auto-generated ones; preserve the richer "issue-card" entries which have images)
+    # Strip all legacy simple entries AND all existing rich cards so we rebuild the list
+    # from scratch in correct DESC order. 2026-04-14: previous logic preserved rich cards
+    # in place → new entries landed at the bottom, breaking DESC sort.
     simple_pat = re.compile(
         r'\s*<li><a href="(\d{4}-\d{2}-\d{2})\.html"><span class="date">[^<]+</span><div class="meta">\d+ articles</div></a></li>\n?'
     )
-    # Build map: date -> total_articles (latest wins); also strip all simple entries from content
+    rich_pat = re.compile(
+        r'\s*<li><a class="issue-card" href="(\d{4}-\d{2}-\d{2})\.html">.*?</a></li>\s*',
+        re.DOTALL,
+    )
     existing = {}
-    def collect(m):
-        existing[m.group(1)] = None  # placeholder, real count extracted below
-        return ''
-    # First pass: pull real counts
     for m in simple_pat.finditer(content):
         d = m.group(1)
-        count_m = re.search(r'<div class="meta">(\d+) articles</div>', m.group(0))
-        if count_m:
-            existing[d] = int(count_m.group(1))
-    # Strip all simple entries
+        cm = re.search(r'<div class="meta">(\d+) articles</div>', m.group(0))
+        if cm:
+            existing[d] = int(cm.group(1))
+    for m in rich_pat.finditer(content):
+        d = m.group(1)
+        cm = re.search(r'<span class="meta">(\d+) 則情報</span>', m.group(0))
+        if cm and d not in existing:
+            existing[d] = int(cm.group(1))
     content = simple_pat.sub('', content)
+    content = rich_pat.sub('', content)
 
-    # Upsert the new one
+    # Upsert the new one (latest call wins count)
     existing[date_str] = total_articles
 
-    # Detect which dates already have a rich card via existing <a class="issue-card">
-    rich_cards = set(re.findall(r'<a class="issue-card" href="(\d{4}-\d{2}-\d{2})\.html"', content))
+    # All cards get rebuilt — no "preserve" anymore
+    rich_cards = set()
 
     # Build sorted (desc) block — emit rich card for each entry. If a card png exists,
     # use it; otherwise inline an SVG gradient placeholder so layout matches.
