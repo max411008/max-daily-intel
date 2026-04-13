@@ -197,6 +197,16 @@ if __name__ == "__main__":
         f.write(html)
 
     total = sum(len(v.get("articles", [])) for v in data.values())
+
+    # Render rich card (cards/{date}-card.html + PNG) before update_index, so the
+    # issue-card img src picks up the real PNG instead of falling back to gradient SVG.
+    try:
+        import subprocess
+        subprocess.run(['python3', os.path.join(os.path.dirname(__file__), 'build_rich_cards.py'), date_str],
+                       timeout=60, check=False)
+    except Exception as e:
+        print(f"rich card build warning: {e}")
+
     update_index(date_str, total)
 
     print(f"Generated: docs/{date_str}.html ({total} articles)")
