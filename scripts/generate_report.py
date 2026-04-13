@@ -113,15 +113,43 @@ def generate_report(analyzed_data, date_str):
 
 
 def update_index(date_str, total_articles):
-    """Add new issue to index.html."""
+    """Idempotently update index.html: dedupe by date, sort desc, keep card entries intact."""
+    import re
     index_path = os.path.join(os.path.dirname(__file__), '..', 'docs', 'index.html')
     with open(index_path, 'r') as f:
         content = f.read()
 
-    date_display = datetime.strptime(date_str, "%Y-%m-%d").strftime("%Y/%m/%d (%a)")
-    new_entry = f'    <li><a href="{date_str}.html"><span class="date">{date_display}</span><div class="meta">{total_articles} articles</div></a></li>\n    <!-- ISSUES_LIST -->'
+    # Collect existing entries of form: <li><a href="YYYY-MM-DD.html">... </a></li>
+    # (the simple-auto-generated ones; preserve the richer "issue-card" entries which have images)
+    simple_pat = re.compile(
+        r'\s*<li><a href="(\d{4}-\d{2}-\d{2})\.html"><span class="date">[^<]+</span><div class="meta">\d+ articles</div></a></li>\n?'
+    )
+    # Build map: date -> total_articles (latest wins); also strip all simple entries from content
+    existing = {}
+    def collect(m):
+        existing[m.group(1)] = None  # placeholder, real count extracted below
+        return ''
+    # First pass: pull real counts
+    for m in simple_pat.finditer(content):
+        d = m.group(1)
+        count_m = re.search(r'<div class="meta">(\d+) articles</div>', m.group(0))
+        if count_m:
+            existing[d] = int(count_m.group(1))
+    # Strip all simple entries
+    content = simple_pat.sub('', content)
 
-    content = content.replace('<!-- ISSUES_LIST -->', new_entry)
+    # Upsert the new one
+    existing[date_str] = total_articles
+
+    # Build sorted (desc) block
+    entries = []
+    for d in sorted(existing.keys(), reverse=True):
+        display = datetime.strptime(d, "%Y-%m-%d").strftime("%Y/%m/%d (%a)")
+        entries.append(
+            f'    <li><a href="{d}.html"><span class="date">{display}</span><div class="meta">{existing[d]} articles</div></a></li>'
+        )
+    block = '\n'.join(entries) + '\n    <!-- ISSUES_LIST -->'
+    content = content.replace('<!-- ISSUES_LIST -->', block)
 
     with open(index_path, 'w') as f:
         f.write(content)
