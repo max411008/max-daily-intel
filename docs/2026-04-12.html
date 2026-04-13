@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-04-12</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 4 月 12 日（日）</div>
+    <div class="stats">
+      <span>38 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">25 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/07/oil-at-usd100-vs-bitcoin-at-usd70k-the-wild-ride-that-fidelity-strategist-says-is-a-real-buying-opportunity" target="_blank" rel="noopener">Bitcoin may be forming a base at $65,000 as 'paper hands' have been flushed out</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/oil-futures-up-7-on-hyperliquid-as-trump-orders-naval-blockade-of-hormuz" target="_blank" rel="noopener">Oil futures up 7% on Hyperliquid as Trump orders Naval blockade of Hormuz</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/market-makers-are-fleeing-public-blockchains-to-protect-their-secret-trading-playbooks" target="_blank" rel="noopener">Market makers are fleeing public blockchains to protect their secret trading playbooks</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-2028-halving-hits-the-halfway-point?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin miners face a tougher road to the 2028 halving</a></h3>
+      <div class="summary">Bitcoin miners are heading toward the 2028 halving with thinner margins, tighter power markets and a growing need for capital discipline.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/bitcoin-slips-below-usd71-000-as-trump-orders-blockade-of-strait-of-hormuz" target="_blank" rel="noopener">Bitcoin slips below $71,000 as Trump orders U.S. to join Iran in blockade of Strait of Hormuz</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/bitcoin-analysts-flag-triggers-for-a-massive-surge-to-usd88-000-even-as-war-risks-linger" target="_blank" rel="noopener">Bitcoin analysts flag triggers for a massive surge to $88,000 even as war risks linger</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/policy/2026/04/10/super-pac-tied-to-tether-makes-first-ad-buy-from-firm-founded-by-tether-s-u-s-ceo" target="_blank" rel="noopener">Super PAC tied to Tether makes first ad buy from firm founded by Tether's U.S. CEO</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/banks-corporates-europe-actively-selecting-partners-stablecoin-push?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Banks, corporates in Europe ‘actively selecting partners’ for stablecoin push</a></h3>
+      <div class="summary">Stablecoin adoption in Europe is shifting from strategy to execution, with demand increasingly driven by real-world needs.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/business/2026/04/12/commodity-traders-are-getting-debanked-due-to-iran-war-pushing-them-to-rely-on-stablecoins" target="_blank" rel="noopener">Commodity traders are getting debanked due to Iran war, pushing them to rely on stablecoins</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/tron-s-justin-sun-slams-trump-backed-wlfi-for-treating-users-as-personal-atm-after-usd75-million-defi-loan" target="_blank" rel="noopener">Tron’s Justin Sun slams Trump-backed WLFI for treating users as ‘personal ATM’ after $75 Million DeFi loan</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/trump-token-sees-whale-accumulation-ahead-of-mar-a-lago-gala-senators-raise-questions-over-event" target="_blank" rel="noopener">Trump token sees whale accumulation ahead of Mar-a-Lago gala; senators raise questions over event</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/tech/2026/04/12/why-north-korea-keeps-stealing-billions-in-crypto-out-in-the-open" target="_blank" rel="noopener">Why North Korea keeps stealing billions in crypto — out in the open</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/us-clarity-act-crypto-regulations-cynthia-lummis-senator?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">US down to 'last chance' to pass CLARITY Act before 2030: Lummis</a></h3>
+      <div class="summary">Staunch crypto advocate Senator Cynthia Lummis said the country should not risk its financial future by further delaying the CLARITY Act.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/polymarket-google-news-removed-error-report?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Polymarket bets removed from Google News after brief appearance: Report</a></h3>
+      <div class="summary">Polymarket links briefly appeared under mainstream outlets in Google News results for event-driven queries but were later removed.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/ether-machine-spac-ethm-cancelled-dynamix-merger?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Ether Machine scraps SPAC merger with Dynamix, citing market conditions</a></h3>
+      <div class="summary">The Ethereum treasury firm aimed to launch a $1.5 billion yield-bearing ETH fund but will now halt its plans following the mutual decision to end the</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/12/xrp-drops-to-usd1-33-as-bitcoin-weakness-pulls-down-majors" target="_blank" rel="noopener">XRP drops to $1.33 as bitcoin weakness pulls down majors</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-ether-crypto-market-trend-reversal-macro-investor?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin, Ether near levels that could signal trend reversal: Analyst</a></h3>
+      <div class="summary">Bitcoin and Ether are each less than 10% away from price levels that could signal a potential reversal in the crypto market, according to a macro analyst.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/11/bitcoin-and-other-cryptos-fall-as-u-s-iranian-negotiators-fail-to-reach-war-resolution" target="_blank" rel="noopener">Bitcoin and other cryptos fall as U.S., Iranian negotiators fail to reach war resolution</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/trump-backlash-crypto-tokens-crash?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">US President Trump faces renewed backlash as Trump-linked tokens crash</a></h3>
+      <div class="summary">Democratic lawmakers and crypto investors characterized crypto projects launched by or tied to Trump as scams and political corruption.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/397121/ecb-backs-eu-plan-to-centralize-crypto-supervision-under-paris-based-esma-watchdog-reuters?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">ECB backs EU plan to centralize crypto supervision under Paris-based ESMA watchdog: Reuters</a></h3>
+      <div class="summary">The ECB warned that ESMA must receive adequate staffing and funding, and recommended a phased transition to avoid disruption.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/crypto-crashed-six-months-ago-have-markets-improved-or-are-bears-still-in-charge?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Crypto crashed six months ago: Have markets improved, or are bears still in charge?</a></h3>
+      <div class="summary">The October 2025 Bitcoin and altcoin crash may have ended the bull market, but its long-term impact on market health may have been overst</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/04/11/musk-s-spacex-holds-usd603-million-in-bitcoin-despite-usd5-billion-loss-stemming-from-xai" target="_blank" rel="noopener">Musk’s SpaceX holds $603 million in bitcoin despite $5 billion loss stemming from xAI</a></h3>
+      <div class="summary"></div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/bitcoin-price-analysis-sees-new-short-squeeze-as-open-interest-nears-25b?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Bitcoin price analysis sees new short squeeze as open interest nears $25B</a></h3>
+      <div class="summary">Bitcoin open interest hit five-week highs while funding rates mimicked the BTC price collapse below $60,000, leading analysis to predict a new shor</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/397117/bitwise-files-second-amendment-to-hyperliquid-etf-adds-wintermute-and-flowdesk-as-trading-counterparties?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Bitwise files second amendment to Hyperliquid ETF, adds Wintermute and Flowdesk as trading counterparties</a></h3>
+      <div class="summary">The filing comes a day after Bitwise Europe listed a physically-backed Hyperliquid staking ETP on Deutsche Börse Xetra. </div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/messaging-notifications-privacy-attack-durov?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Signal push notifications could present privacy vulnerability, says Durov</a></h3>
+      <div class="summary">The comments followed recent reports that law enforcement officials retrieved deleted Signal messages through device push notification logs.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">1 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-iran-talks-break-down-trump-announces-blockade-of-the-strait-of-hormuz-20260412/" target="_blank" rel="noopener">US-Iran talks break down. Trump announces blockade of the Strait of Hormuz</a></h3>
+      <div class="summary">Late yesterday it appeared that US-Iran negotiations were headed for catastrophe after Vice President JD Vance left Pakistan without a deal but not all hope is yet lost if you read between the lines from the latest statements.The most-recent one is from Trump, who said the US will clear mines in the...</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">0 則</span>
+    </div>
+    <div class="empty">今日暫無相關情報</div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">3 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/how-beyond-meat-sank-from-a-14-billion-plant-based-protein-powerhouse-to-a-penny-stock-464c9781?mod=mw_rss_topstories" target="_blank" rel="noopener">How Beyond Meat sank from a $14 billion plant-based protein powerhouse to a penny stock</a></h3>
+      <div class="summary">There’s a lot more to Beyond Meat’s fall from grace than just falling sales and mounting losses.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/here-are-some-bargain-bank-stocks-heading-into-earnings-season-d0e6b3da?mod=mw_rss_topstories" target="_blank" rel="noopener">Here are some bargain bank stocks heading into earnings season</a></h3>
+      <div class="summary">A close look at valuations for the largest U.S. banks highlights opportunities for long-term investors.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/there-are-years-long-waiting-lists-to-retire-on-college-campuses-6-steps-to-take-before-enrolling-d7bd2d2d?mod=mw_rss_topstories" target="_blank" rel="noopener">There are years-long waiting lists to retire on college campuses. 6 steps to take before enrolling.</a></h3>
+      <div class="summary">Retiring to a college community can be great — if you can afford it.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">4 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/12/artificial-intelligence-definition-glossary-hallucinations-guide-to-common-ai-terms/" target="_blank" rel="noopener">From LLMs to hallucinations, here’s a simple guide to common AI terms</a></h3>
+      <div class="summary">The rise of AI has brought an avalanche of new terms and slang. Here is a glossary with definitions of some of the most important words and phrases you might encounter.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/12/at-the-humanx-conference-everyone-was-talking-about-claude/" target="_blank" rel="noopener">At the HumanX conference, everyone was talking about Claude</a></h3>
+      <div class="summary">Anthropic was the star of the show at San Francisco's AI-centric conference.</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/column/910019/ai-coding-wars-openai-google-anthropic" target="_blank" rel="noopener">The AI code wars are heating up</a></h3>
+      <div class="summary">This is The Stepback, a weekly newsletter breaking down one essential story from the tech world. For more on the AI coding and vibe-coding booms, follow David Pierce. The Stepback arrives in our subscribers' inboxes at 8AM ET. Opt in for The Stepback here. How it started Writing code was a killer ap...</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/11/sam-altman-responds-to-incendiary-new-yorker-article-after-attack-on-his-home/" target="_blank" rel="noopener">Sam Altman responds to ‘incendiary’ New Yorker article after attack on his home</a></h3>
+      <div class="summary">The OpenAI CEO's new blog post responds to both an apparent attack on his home and an in-depth New Yorker profile raising questions about his trustworthiness.</div>
+      
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">5 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.thealgorithmicbridge.com/p/ai-will-be-met-with-violence-and" target="_blank" rel="noopener">AI Will Be Met with Violence, and Nothing Good Will Come of It</a></h3>
+      <div class="summary">Article URL: https://www.thealgorithmicbridge.com/p/ai-will-be-met-with-violence-and
+Comments URL: https://news.ycombinator.com/item?id=47737563
+Points: 325
+# Comments: 581</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/layered-2" target="_blank" rel="noopener">Layered</a></h3>
+      <div class="summary">
+            Turn your selfies into a personal AI stylist
+          
+          
+            Discussion
+            |
+            Link
+          </div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/ray-7" target="_blank" rel="noopener">Ray</a></h3>
+      <div class="summary">
+            Your personal CFO in the terminal
+          
+          
+            Discussion
+            |
+            Link
+          </div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/" target="_blank" rel="noopener">Exploiting the most prominent AI agent benchmarks</a></h3>
+      <div class="summary">Article URL: https://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/
+Comments URL: https://news.ycombinator.com/item?id=47733217
+Points: 489
+# Comments: 125</div>
+      
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/gemini-6" target="_blank" rel="noopener">Interactive Simulations in Gemini</a></h3>
+      <div class="summary">
+            Gemini now lets you play with the concepts you ask about
+          
+          
+            Discussion
+            |
+            Link
+          </div>
+      
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
