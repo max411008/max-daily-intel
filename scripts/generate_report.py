@@ -53,9 +53,12 @@ def generate_sector_html(sector_id, label, articles, color):
     else:
         for a in articles:
             source = a.get("source", "")
-            title = a.get("title", "")
+            title = a.get("title_zh") or a.get("title", "")
             link = a.get("link", "#")
-            summary = a.get("analysis", a.get("summary", ""))
+            # Prefer Chinese analysis > summary_zh > (as last resort) summary.
+            # summary is now overwritten to summary_zh upstream when available,
+            # so any English leak would only happen if analyze step skipped a pick.
+            summary = a.get("analysis") or a.get("summary_zh") or a.get("summary", "")
             # Strip HTML tags from summary
             import re
             summary = re.sub(r'<[^>]+>', '', summary)
