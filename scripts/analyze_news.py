@@ -41,19 +41,58 @@ def analyze_batch(raw):
 {json.dumps(candidates, ensure_ascii=False, indent=2)}
 """
 
-    result = subprocess.run(
-        ["claude", "-p", prompt, "--model", "sonnet", "--permission-mode", "bypassPermissions"],
-        capture_output=True, text=True, timeout=300,
-    )
+    # 2026-04-24 fix-daily-intel-missing: on any claude-CLI failure (non-zero,
+    # timeout, empty stdout, or JSON parse error), fall back to raw English
+    # articles so generate_report.py still produces a card (degraded but alive).
+    try:
+        result = subprocess.run(
+            ["claude", "-p", prompt, "--model", "sonnet", "--permission-mode", "bypassPermissions"],
+            capture_output=True, text=True, timeout=300,
+        )
+    except subprocess.TimeoutExpired:
+        print("[analyze] claude failed after 300s — falling back to raw untranslated articles", file=sys.stderr)
+        return _fallback_raw(raw)
+
     if result.returncode != 0:
-        print(f"[analyze] claude failed: {result.stderr[:500]}", file=sys.stderr)
-        sys.exit(1)
+        print(f"[analyze] claude returned {result.returncode}: {result.stderr[:500]} — falling back to raw untranslated articles", file=sys.stderr)
+        return _fallback_raw(raw)
+
     out = result.stdout.strip()
+    if not out:
+        print("[analyze] claude produced empty stdout — falling back to raw untranslated articles", file=sys.stderr)
+        return _fallback_raw(raw)
+
     # strip ```json fences if present
     m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", out, re.DOTALL)
     if m:
         out = m.group(1)
-    return json.loads(out)
+    try:
+        return json.loads(out)
+    except json.JSONDecodeError as e:
+        print(f"[analyze] claude output not valid JSON ({e}) — falling back to raw untranslated articles", file=sys.stderr)
+        return _fallback_raw(raw)
+
+
+def _fallback_raw(raw):
+    """Degraded fallback: emit up to 2 articles per sector using English title/summary
+    as if they were pre-translated. generate_report.py only reads the enrich dict for
+    idx → title_zh/summary_zh/analysis/tags, so supply those with English content."""
+    fallback = {}
+    for sect, info in raw.items():
+        arts = info.get("articles", []) or []
+        picks = []
+        for i, a in enumerate(arts[:2]):
+            title_en = a.get("title", "") or ""
+            summary_en = re.sub(r"<[^>]+>", "", (a.get("summary") or ""))[:400]
+            picks.append({
+                "idx": i,
+                "title_zh": title_en,
+                "analysis": "(claude-CLI unavailable — raw English article; 翻譯服務暫停)",
+                "summary_zh": summary_en,
+                "tags": ["fallback", "untranslated"],
+            })
+        fallback[sect] = picks
+    return fallback
 
 
 def main():
