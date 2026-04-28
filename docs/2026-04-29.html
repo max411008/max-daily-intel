@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-04-29</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 4 月 29 日（三）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/399274/robinhoods-q1-crypto-revenue-and-trading-volume-fall-nearly-50?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Robinhood (羅賓漢) Q1 加密貨幣營收與交易量暴跌近五成</a></h3>
+      <div class="summary">零售投資平台 Robinhood (羅賓漢) 第一季加密貨幣交易量與相關營收較去年同期大跌近50%，反映散戶加密熱情快速降溫。儘管整體交易收入仍年增7%達6.23億美元，加密板塊疲軟已拖累股價盤後重挫8%。這顯示市場動能正從散戶主導轉向機構主導。</div>
+      <div class="tags"><span class="tag">加密貨幣</span><span class="tag">散戶</span><span class="tag">財報</span><span class="tag">Robinhood</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/markets/bitcoin-coinbase-premium-flashes-red-in-three-weeks-as-weekly-losses-top-793m?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">比特幣 (Bitcoin) 美國溢價轉負，單週損失逾8.29億美元</a></h3>
+      <div class="summary">比特幣 (Bitcoin) 跌至一週低點，Coinbase (美國最大加密交易所) 溢價指標三週來首次轉負，顯示美國機構買盤明顯退潮。這是市場情緒惡化的警示訊號，代表美國大型買家正在撤退而非加碼。建議持有者短期謹慎操作，留意關鍵支撐位是否守穩。</div>
+      <div class="tags"><span class="tag">比特幣</span><span class="tag">市場情緒</span><span class="tag">加密貨幣</span><span class="tag">技術分析</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-americas-market-news-uae-leaves-opec-trump-says-iran-wants-to-open-strait-20260428/" target="_blank" rel="noopener">阿聯酋 (UAE) 宣布退出石油輸出國組織 (OPEC)，川普 (Trump) 稱伊朗 (Iran) 盼儘快重開荷姆茲海峽 (Hormuz)</a></h3>
+      <div class="summary">阿聯酋正式退出OPEC及OPEC+，同日川普宣稱伊朗希望盡快重開荷姆茲海峽，兩則消息疊加推動市場風險偏好上升、油價承壓回落。若荷姆茲真正重開，全球油市供給緊張將大幅緩解，對通膨及利率預期均有正面影響。投資人可留意能源股短期波動及黃金避險需求的消退空間。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">石油</span><span class="tag">OPEC</span><span class="tag">伊朗</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/economic-and-event-calendar-in-asia-29-april-2026-triple-ugly-australian-inflation-data-20260428/" target="_blank" rel="noopener">澳洲通膨數據「三重醜陋」，澳洲儲備銀行 (RBA) 5月升息幾成定局</a></h3>
+      <div class="summary">澳洲統計局今日公布3月及第一季通膨數據，預期遠超目標，季度核心通膨預估達年增3.5%，幾乎確定澳洲儲備銀行 (RBA) 將於5月5日升息。這對澳元走強有支撐，同時反映全球通膨壓力仍未消退。持有澳元計價資產的投資人應留意升息後可能的資產價格波動。</div>
+      <div class="tags"><span class="tag">通膨</span><span class="tag">央行</span><span class="tag">澳洲</span><span class="tag">升息</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9470552" target="_blank" rel="noopener">OpenAI (開放人工智慧) 百億美元算力採購傳生變，廣達、緯創等台廠訂單能見度受衝擊</a></h3>
+      <div class="summary">OpenAI (開放人工智慧) 傳出營收成長速度不如預期，高達百億美元的算力採購計畫可能出現變數，直接衝擊廣達、緯創等台灣伺服器代工廠的後續訂單能見度。這是AI供應鏈短期最重要的風險因素之一，市場應密切追蹤OpenAI財務狀況及其與微軟 (Microsoft)、亞馬遜 (Amazon) 合作協議的最新進展。建議持有相關族群的投資人密切留意消息面變化。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">AI供應鏈</span><span class="tag">廣達</span><span class="tag">OpenAI</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9470404" target="_blank" rel="noopener">台股二度挑戰4萬點未果，外資大賣392億元拖累收跌94點</a></h3>
+      <div class="summary">台股昨日受外資賣超台積電 (TSMC) 拖累，指數收跌94點至39,521點，二度挑戰4萬點大關未果。外資單日賣超高達392.9億元，為近期最大賣壓，顯示外資在指數高位有明顯獲利了結意圖。若外資賣壓持續，短期4萬點壓力將維持，建議觀察內資是否有足夠動能接棒。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">外資</span><span class="tag">台積電</span><span class="tag">技術分析</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/the-stock-markets-comeback-from-the-iran-inspired-selloff-hasnt-been-as-powerful-as-you-might-think-6138bbec?mod=mw_rss_topstories" target="_blank" rel="noopener">標普500 (S&P 500) 創歷史新高背後隱憂：等權指數仍低於前高，漲勢過度集中</a></h3>
+      <div class="summary">雖然標普500指數 (S&P 500) 已回到歷史高點區間，但其等權重版本（反映廣泛成分股表現）仍滯留前高之下，顯示這波反彈高度集中於少數大型科技股。市場廣度不足是潛在警訊，若龍頭股出現獲利了結，整體指數的下行風險將被放大。投資人應關注市場廣度指標，避免過度集中於科技權值股。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">市場廣度</span><span class="tag">標普500</span><span class="tag">技術分析</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/its-time-for-a-microsoft-reset-heres-what-investors-should-focus-on-now-a5d9e334?mod=mw_rss_topstories" target="_blank" rel="noopener">微軟 (Microsoft) 迎來「重設時刻」：分析師建議投資人重新聚焦軟體獲利能力</a></h3>
+      <div class="summary">隨著AI雲端敘事趨於成熟，微軟 (Microsoft) 有機會引導市場關注焦點從Azure (雲端) 轉向核心軟體業務，以改善偏空的市場情緒。分析師認為目前負面情緒已過度反映，重新評估軟體獲利潛力可能是微軟股價的新催化劑。若成功完成敘事轉換，有望帶動科技股整體評價重估。</div>
+      <div class="tags"><span class="tag">微軟</span><span class="tag">美股</span><span class="tag">雲端</span><span class="tag">AI</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/04/28/amazon-is-already-offering-new-openai-products-on-aws/" target="_blank" rel="noopener">微軟 (Microsoft) 放棄獨家授權後，亞馬遜 (Amazon) 搶先在 AWS 上架 OpenAI 全系列產品</a></h3>
+      <div class="summary">OpenAI (開放人工智慧) 成功說服微軟 (Microsoft) 終止獨家合作協議，隔日亞馬遜 (Amazon) 旋即宣布在 AWS (亞馬遜雲端服務) 上線OpenAI全系列模型，包含全新AI代理服務。這標誌著OpenAI從單一雲端合作夥伴轉向全平台佈局，對雲端服務競爭格局影響深遠，也意味著AI模型的可及性大幅提升。</div>
+      <div class="tags"><span class="tag">OpenAI</span><span class="tag">AWS</span><span class="tag">雲端</span><span class="tag">AI代理</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/917225/sam-altman-elon-musk-openai-lawsuit" target="_blank" rel="noopener">馬斯克 (Elon Musk) 對決奧特曼 (Sam Altman) 世紀審判開庭，OpenAI 未來走向牽動AI產業</a></h3>
+      <div class="summary">Elon Musk (馬斯克) 正式在庭上作證，指控OpenAI (開放人工智慧) CEO Sam Altman (奧特曼) 背離了以造福人類為宗旨的建立初衷，轉而追求商業利益。此案結果將直接影響OpenAI的非營利轉型計畫及股權結構，進而左右全球最大AI公司的戰略方向。投資人與AI產業應密切關注庭審進展，此案可能重塑整個AI治理生態。</div>
+      <div class="tags"><span class="tag">OpenAI</span><span class="tag">AI治理</span><span class="tag">馬斯克</span><span class="tag">法律</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/919494/google-pentagon-classified-ai-deal" target="_blank" rel="noopener">Google (谷歌) 與五角大廈 (Pentagon) 秘密簽署協議，允許「任何合法用途」使用AI</a></h3>
+      <div class="summary">Google (谷歌) 已與美國國防部 (Pentagon) 簽署機密協議，允許軍方將其AI模型用於「任何合法政府用途」，此舉在Google內部引發員工強烈反彈。值得注意的是，Anthropic (人類公司，Claude的開發商) 此前已拒絕國防部同類要求，Google的決定凸顯了AI公司在軍事應用上的路線分歧，將成為AI倫理與商業決策的重要分水嶺。</div>
+      <div class="tags"><span class="tag">AI倫理</span><span class="tag">軍事AI</span><span class="tag">Google</span><span class="tag">政策</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://github.com/microsoft/VibeVoice" target="_blank" rel="noopener">微軟 (Microsoft) 開源「VibeVoice」：前沿語音AI模型登上 Hacker News (駭客新聞) 熱榜</a></h3>
+      <div class="summary">微軟 (Microsoft) 開源的 VibeVoice 語音AI專案在 Hacker News (駭客新聞) 獲得299點高分，反映開發者社群對開源語音AI的強烈需求。開源前沿語音模型降低了語音應用的開發門檻，對需要語音功能的開發者而言是重要資源。建議關注語音AI應用開發的工程師追蹤此專案的能力邊界與授權條款。</div>
+      <div class="tags"><span class="tag">開源</span><span class="tag">語音AI</span><span class="tag">微軟</span><span class="tag">開發工具</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
