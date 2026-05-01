@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-05-02</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 5 月 2 日（六）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/markets/3-bitcoin-data-points-suggest-rally-to-80k-is-imminent?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">三項鏈上數據顯示 Bitcoin (比特幣) 即將反彈至 80,000 美元</a></h3>
+      <div class="summary">現貨交易量上升、期貨未平倉合約走高，技術面信號同步轉強，多項指標指向 Bitcoin (比特幣) 即將挑戰 80,000 美元關卡。買盤結構改善顯示市場信心逐步回籠，非僅短線投機驅動。短線可留意 80,000 美元阻力位，若有效突破將有機會加速上攻。</div>
+      <div class="tags"><span class="tag">比特幣</span><span class="tag">技術分析</span><span class="tag">期貨</span><span class="tag">加密貨幣</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/05/01/bitcoin-miner-riot-s-shares-jump-8-after-expanding-amd-data-center-deal-signaling-ai-pivot" target="_blank" rel="noopener">比特幣礦商 Riot 股價跳升 8%，擴大 AMD (超微) 資料中心合約暗示 AI 轉型</a></h3>
+      <div class="summary">Riot Platforms 宣布擴大與 AMD (超微) 的資料中心合作，AMD 將合約算力容量翻倍，首季資料中心營收達 3,300 萬美元，股價單日大漲 8%。此舉標誌著傳統比特幣礦商加速轉型 AI 算力服務，有助改善長期獲利結構。可留意礦商 AI 轉型趨勢是否帶動板塊估值重訂。</div>
+      <div class="tags"><span class="tag">比特幣礦商</span><span class="tag">AI算力</span><span class="tag">資料中心</span><span class="tag">加密貨幣</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-not-satisfied-with-the-latest-iran-proposal-not-sure-were-going-to-get-a-deal-20260501/" target="_blank" rel="noopener">Trump (川普) 稱對伊朗最新提案不滿意，暗示談判瀕臨破局</a></h3>
+      <div class="summary">Trump (川普) 公開表態對伊朗最新和談提案不滿意，稱「不確定能否達成協議」，並明確列出「摧毀對方」或「達成協議」兩個選項，地緣政治緊張情緒重燃。談判前景不明將持續支撐油價及黃金避險需求，不確定性溢價短期難以消散。投資人宜密切留意美伊談判後續動態，避險資產配置仍具防禦價值。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">伊朗</span><span class="tag">油價</span><span class="tag">避險資產</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-tariffs-on-european-cars-and-trucks-coming-into-the-us-will-increase-to-25-20260501/" target="_blank" rel="noopener">Trump (川普) 宣布對歐洲汽車關稅升至 25%，貿易戰再度升溫</a></h3>
+      <div class="summary">Trump (川普) 在 Truth Social 發文，宣布下週起對進口歐洲汽車及卡車加徵 25% 關稅，理由是歐盟未完全同意貿易協議條款。消息公布後美股小幅回落，美元短暫走強，全球貿易摩擦擴大疑慮再起。貿易不確定性上升通常對黃金構成支撐，同時對歐洲汽車股形成壓力。</div>
+      <div class="tags"><span class="tag">關稅</span><span class="tag">貿易戰</span><span class="tag">歐盟</span><span class="tag">汽車產業</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9476934" target="_blank" rel="noopener">15檔個股首季預估大賺逾一股本，聯發科等績優股吸引法人追捧</a></h3>
+      <div class="summary">台股4月大漲22.7%後指數乖離擴大，法人資金開始轉進基本面紮實的業績成長股。聯發科、鴻勁、貿聯-KY等15檔首季預估可大賺超過一股本且獲三大法人青睞的標的，全年成長動能可期。高檔震盪階段，業績股抗跌性較強，是相對安全的布局方向。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">業績股</span><span class="tag">法人動向</span><span class="tag">聯發科</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9476943" target="_blank" rel="noopener">台股四大利多蓄勢待發，520行情力拚40,000點大關</a></h3>
+      <div class="summary">市場專家指出台股具備企業獲利上修、資金充裕、政策支持及題材豐富四大優勢，即使美伊談判仍懸而未決，520總統就職周年行情仍有望推動指數挑戰四萬點歷史新高。短線雖有高檔震盪整理壓力，中長線基本面支撐穩固。建議聚焦半導體、AI、軍工等五大信賴產業，逢回可分批布局。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">520行情</span><span class="tag">多頭</span><span class="tag">市場展望</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/business/deals/gamestop-preparing-offer-for-ebay-1678e6de?mod=rss_markets_main" target="_blank" rel="noopener">GameStop (遊戲驛站) 準備收購 eBay，執行長 Cohen (科恩) 劍指千億美元版圖</a></h3>
+      <div class="summary">據 WSJ 報導，GameStop 正積極籌備向 eBay 提出收購要約，此為執行長 Ryan Cohen (賴安·科恩) 打造超過千億美元市值企業宏圖的一部分。兩家公司均以二手商品交易為核心業務，但此案規模龐大且融資挑戰可觀，市場對可行性存疑。消息若確認，GameStop 及 eBay 股價均可能出現劇烈波動，宜保持觀望。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">併購</span><span class="tag">GameStop</span><span class="tag">電商</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/trump-to-talk-up-his-push-to-lower-costs-as-analysts-see-bruising-midterms-for-gop-due-to-economic-worries-66086c74?mod=mw_rss_topstories" target="_blank" rel="noopener">分析師警告 Trump (川普) 共和黨期中選舉將慘敗，民眾對通膨不滿是主因</a></h3>
+      <div class="summary">儘管 Trump (川普) 積極推銷其降稅降本政策，多位分析師仍預測共和黨將因選民對物價居高不下的強烈不滿，在11月期中選舉遭受重大敗績。政治格局若生變，財政及貿易政策走向將面臨更大不確定性，中期對市場情緒構成潛在壓力。投資人應將政治風險納入中線配置考量。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">政治風險</span><span class="tag">期中選舉</span><span class="tag">通膨</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/05/01/meta-buys-robotics-startup-to-bolster-its-humanoid-ai-ambitions/" target="_blank" rel="noopener">Meta 收購人形機器人新創 Assured Robot Intelligence，強化具身 AI 布局</a></h3>
+      <div class="summary">Meta 收購人形機器人新創公司 Assured Robot Intelligence，旨在強化其 AI 機器人模型的能力，加速進軍具身 AI（Embodied AI）領域。此舉顯示 Meta 不再滿足於純軟體 AI，正積極與 Google、Tesla 等巨頭在機器人賽道展開競爭。Meta 投資人可留意公司後續在 AI 硬體及機器人方向的資本支出計畫。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">機器人</span><span class="tag">Meta</span><span class="tag">併購</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/05/01/pentagon-inks-deals-with-nvidia-microsoft-and-aws-to-deploy-ai-on-classified-networks/" target="_blank" rel="noopener">五角大廈與 Nvidia (輝達)、Microsoft (微軟)、AWS 簽約在機密網路部署 AI，Anthropic 遭排除</a></h3>
+      <div class="summary">美國國防部與 Nvidia (輝達)、Microsoft (微軟)、Amazon、OpenAI、Google 等多家科技巨頭達成協議，允許在機密網路中部署 AI 工具，但 Anthropic 因使用條款爭議被排除在外。此舉標誌著 AI 軍事化應用正式進入新階段，同時也凸顯政府採購中 AI 供應商的競爭日趨激烈。Anthropic 被排除可能影響其在政府市場的未來布局，值得持續關注。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">國防</span><span class="tag">五角大廈</span><span class="tag">Nvidia</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/" target="_blank" rel="noopener">Uber 四個月燒光 2026 全年 AI 預算，全數花在 Claude Code 上</a></h3>
+      <div class="summary">Hacker News 熱議報導指出 Uber 在短短四個月內耗盡整年 AI 開發預算，費用全數集中於 Anthropic 的 Claude Code，引發業界對 AI 編程助手成本失控的廣泛討論。此案例反映企業在快速採用 AI 開發工具時，往往嚴重低估實際使用量與費用。建議導入 Claude Code 等 AI 工具的企業，事前建立用量監控儀表板與部門預算上限機制。</div>
+      <div class="tags"><span class="tag">AI工具</span><span class="tag">Claude Code</span><span class="tag">開發成本</span><span class="tag">Uber</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://x.com/aaronp613/status/2049986504617820551" target="_blank" rel="noopener">Apple 不慎將 Claude.md 設定檔打包進 Apple Support App，意外曝光內部 AI 工具使用</a></h3>
+      <div class="summary">有用戶在 Apple Support App 中發現 Claude.md 設定檔，證實 Apple 內部正在使用 Anthropic 的 Claude Code，並意外將設定細節打包進公開 App 中。此事在 Hacker News 獲得 362 分（當日最高分之一），顯示大型科技公司內部 AI 工具滲透率遠超外界認知。企業在導入 AI 開發工具時應建立設定檔及敏感資訊的版本控管流程，避免類似洩露。</div>
+      <div class="tags"><span class="tag">Apple</span><span class="tag">Claude Code</span><span class="tag">資訊安全</span><span class="tag">AI工具</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
