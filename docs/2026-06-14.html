@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-06-14</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 6 月 14 日（日）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/404690/venice-and-morpheus-tokens-climb-as-us-ban-on-anthropics-fable-5-fuels-permissionless-ai-pitch?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">美國禁用 Anthropic Fable 5 助攻「無許可AI」敘事，Venice 與 Morpheus 代幣飆漲</a></h3>
+      <div class="summary">美國政府下令停用 Anthropic (人類未來研究公司) 的 Fable 5 與 Mythos 5 模型後，去中心化 AI 項目 Venice 創辦人 Erik Voorhees 與 Morpheus 官方帳號立即借勢炒作「無許可 AI」概念，帶動相關代幣上漲。此事件說明監管打壓中心化 AI 可能意外成為去中心化 AI 的最佳行銷素材。短線炒作情緒濃厚，投資人需謹慎評估基本面。</div>
+      <div class="tags"><span class="tag">去中心化AI</span><span class="tag">監管</span><span class="tag">Anthropic</span><span class="tag">代幣</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/404685/coinbase-quantum-report-flags-exchange-cold-wallets-among-millions-of-bitcoin-exposed-by-address-reuse?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Coinbase量子報告：地址重用讓數百萬比特幣面臨風險，含交易所冷錢包</a></h3>
+      <div class="summary">Coinbase (幣安美國) 發布量子運算安全報告，指出因地址重複使用，數百萬枚比特幣（包含交易所自身冷錢包）暴露於未來量子攻擊風險。報告建議設定遷移截止日期並凍結易受攻擊的幣，顯示業界正嚴肅看待量子威脅。持有比特幣的投資人應關注錢包地址使用習慣，並留意各大交易所後續安全升級動向。</div>
+      <div class="tags"><span class="tag">量子運算</span><span class="tag">比特幣</span><span class="tag">資安</span><span class="tag">Coinbase</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/iranian-finance-minister-end-of-war-on-all-fronts-will-be-announced-under-interim-deal-20260612/" target="_blank" rel="noopener">伊朗財長：臨時協議將宣布各戰線停戰，霍爾木茲海峽解封列入條款</a></h3>
+      <div class="summary">伊朗財政部長 Araghchi 表示，美伊臨時協議將涵蓋各戰線停戰，並包括解除美國封鎖及重開霍爾木茲海峽（Strait of Hormuz）等重大條款，但協議尚未簽署仍可能變動。此消息若落地，將顯著降低中東地緣風險溢價，對原油價格形成下行壓力，黃金避險需求亦可能短線回落。投資人應密切關注周末日內瓦談判進展，消息反覆風險極高。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">美伊談判</span><span class="tag">原油</span><span class="tag">霍爾木茲</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/at-least-10-billion-for-iran-to-be-unlocked-in-iran-deal-20260612/" target="_blank" rel="noopener">伊朗協議至少解凍 100 億美元，UAE 已先行交付 30 億</a></h3>
+      <div class="summary">路透社報導，阿聯酋（UAE）將解凍至少 100 億美元伊朗凍結資產，首批 30 億美元已完成交付，據悉完整協議金額達 200 億美元，換取伊朗停止對 UAE 的一切攻擊。這是繼 2016 年 17 億美元爭議現金結算後規模最大的對伊資金釋放，對中東局勢及原油市場影響深遠。若協議成真，制裁紅利可能逐步流入市場，投資人需重新評估伊朗石油供給回歸的時間表。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">伊朗制裁</span><span class="tag">中東</span><span class="tag">原油</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9564882" target="_blank" rel="noopener">除權息旺季到來，長榮航、興富發等高殖利率個股吸引防禦資金轉進</a></h3>
+      <div class="summary">台股進入高檔震盪整理之際，除權息旺季同步啟動，高股息殖利率族群的抗震特性凸顯，長榮航、興富發、東陽等個股吸引防禦性資金進駐。市場預期今年除息行情優於往年，在外部不確定因素未消除前，高殖利率股可作為波動環境中的穩健配置。投資人可趁震盪期間提前布局，把握除息前的股息收益機會。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">除權息</span><span class="tag">高殖利率</span><span class="tag">防禦型投資</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/8543/9564901" target="_blank" rel="noopener">外資熱錢5月賣韓278億、6月狂賣亞股270億美元，台股神山如臨大敵</a></h3>
+      <div class="summary">OECD 下修全球經濟成長預測至 2.8%，外資 5 月大舉賣超韓股 278 億美元、6 月再狂拋亞股 270 億美元，台股雖曾大漲 60% 但面臨熱錢撤離壓力。此波外資撤亞股的規模與速度值得高度警戒，若美伊談判破局或關稅風險再起，台股高位震盪格局恐延續。建議降低槓桿、布局防禦性高殖利率個股以抵禦亂流。</div>
+      <div class="tags"><span class="tag">外資</span><span class="tag">台股</span><span class="tag">亞股</span><span class="tag">地緣政治</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/sectors/healthcare/articles/safe-bristol-myers-squibbs-dividend-223500341.html" target="_blank" rel="noopener">美國社會安全基金 2032 年面臨 22% 削減懸崖，退休規劃規則正在改變</a></h3>
+      <div class="summary">美國社會安全（Social Security）信託報告顯示，若國會不採取行動，2032 年退休金將自動削減 22%，此時通膨又推升 2027 年生活成本調整（COLA）可能高達 4.7%。退休規劃的基本假設正在動搖，依賴社會安全作為主要收入的 44% 老年人口將面臨嚴峻衝擊。建議提早評估替代收入來源，減少對政府退休金的依賴。</div>
+      <div class="tags"><span class="tag">美國退休金</span><span class="tag">社會安全</span><span class="tag">通膨</span><span class="tag">財政風險</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/markets/stocks/articles/palantir-stock-ripe-rebound-223000401.html" target="_blank" rel="noopener">Palantir（帕蘭泰爾）股價是否已具反彈條件？分析師看法分歧</a></h3>
+      <div class="summary">Palantir（帕蘭泰爾）股價近期回落後，市場開始討論是否已具備技術性反彈條件，但分析師對估值是否合理仍有分歧。Palantir 是 AI 政府與企業數據分析的重要玩家，其股價走勢高度依賴政府合約動向與 AI 支出預期。在 Anthropic 模型遭美國政府禁用的背景下，Palantir 的政府 AI 合約地位值得持續關注。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">Palantir</span><span class="tag">AI</span><span class="tag">政府合約</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/949601/amazon-anthropic-fablemythos-government-ban" target="_blank" rel="noopener">Amazon 安全研究觸發白宮禁令：Anthropic Fable 5 遭封殺幕後真相曝光</a></h3>
+      <div class="summary">《華爾街日報》報導，促使美國政府下令 Anthropic 封禁 Fable 5 與 Mythos 5 的關鍵，是 Amazon（亞馬遜）內部安全研究團隊發現的越獄漏洞，執行長 Andy Jassy 並直接向白宮反映。此事揭示大型雲端平台對 AI 安全的影響力遠超外界認知，也凸顯 AWS（亞馬遜雲端）與 Anthropic 之間存在微妙的利益張力。對其他 AI 公司而言，這是一個警示：合作夥伴的安全評估可能直接影響監管命運。</div>
+      <div class="tags"><span class="tag">Anthropic</span><span class="tag">Amazon</span><span class="tag">AI監管</span><span class="tag">國家安全</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/06/13/openai-faces-investigation-from-state-attorneys-general/" target="_blank" rel="noopener">OpenAI 遭多州檢察長聯合調查，涵蓋廣告政策與健康數據處理</a></h3>
+      <div class="summary">多個美國州的檢察長正對 OpenAI 展開聯合調查，範圍涵蓋廣告政策、健康數據處理等多個面向，具體涉及州份尚未公開。在 Anthropic 遭聯邦禁令的同一時間點，OpenAI 也面臨州級監管壓力，顯示美國各層級政府對頭部 AI 公司的監管態勢全面收緊。投資人應將 AI 監管風險列為核心考量因素，相關法律結果可能影響商業模式。</div>
+      <div class="tags"><span class="tag">OpenAI</span><span class="tag">AI監管</span><span class="tag">法律風險</span><span class="tag">數據隱私</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://opensourceaimustwin.com/?share=v2" target="_blank" rel="noopener">「開源 AI 必須勝出」宣言在 Hacker News 爆紅，獲 1498 點按讚</a></h3>
+      <div class="summary">一篇題為「開源 AI 必須勝出」的文章在 Hacker News 獲得 1498 點支持與 462 則討論，恰逢 Anthropic Fable 5 遭美國政府禁用的同一時間點，時機敏感。這波討論反映開發者社群對中心化 AI 受政府管控的深切憂慮，開源替代方案的訴求正在升溫。對開發者而言，在選擇 AI 基礎設施時，廠商鎖定與政策風險應納入評估。</div>
+      <div class="tags"><span class="tag">開源AI</span><span class="tag">AI監管</span><span class="tag">開發者社群</span><span class="tag">Hacker News</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://status.claude.com/incidents/s9w82lp9dcn9" target="_blank" rel="noopener">Anthropic 暫停 Claude Mythos 5 與 Fable 5 訪問，官方狀態頁面發出公告</a></h3>
+      <div class="summary">Anthropic 官方狀態頁面確認已暫停 Claude Mythos 5 與 Fable 5 的全球訪問，包括 Anthropic 員工本身也無法使用。此事件是 AI 史上首次由政府命令導致頂級商業模型被全面下架，對所有依賴這兩個模型的開發者與企業造成即時衝擊。使用這些模型的開發者應立即評估備案方案（如降級至 Claude Sonnet 4.6 或切換其他供應商）以維持服務連續性。</div>
+      <div class="tags"><span class="tag">Anthropic</span><span class="tag">Claude</span><span class="tag">AI監管</span><span class="tag">開發者</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
