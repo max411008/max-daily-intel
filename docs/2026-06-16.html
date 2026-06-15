@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-06-16</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 6 月 16 日（二）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/404802/spot-hype-etfs-near-900-million-volume-early-demand-signals-institutional-interest?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">現貨 HYPE ETF 成交量逼近 9 億美元，早期需求暗示機構佈局</a></h3>
+      <div class="summary">三檔 HYPE 現貨 ETF 上市初期合計成交量接近 9 億美元，為機構資金進場提供早期訊號。成交量集中於 BHYP 與 THYP，顯示市場偏好流動性較佳的產品，而非追求費率最低選項。若此趨勢延續，HYPE 有望複製 BTC/ETH ETF 初期的機構吸籌效應，值得持續追蹤資金流向。</div>
+      <div class="tags"><span class="tag">ETF</span><span class="tag">機構資金</span><span class="tag">HYPE</span><span class="tag">加密資產</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/404804/spacex-ipo-1-4-billion-trading-frenzy-hyperliquid-spcx-perp-hip-3s-biggest-market?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">SpaceX (太空探索技術公司) IPO 引爆 Hyperliquid 14億美元交易狂潮，SPCX 永續合約成 HIP-3 最大市場</a></h3>
+      <div class="summary">SpaceX 上市首日，去中心化衍生品平台 Hyperliquid 上的 SPCX 永續合約單日成交額衝破 14 億美元，帶動本月股票連結 HIP-3 市場總量突破 188 億美元，已超越原油與布蘭特原油永續合約的總和。這顯示加密衍生品市場正快速吸納傳統資本市場的事件驅動流量，DeFi 與 TradFi 邊界持續模糊。投資人可留意 Hyperliquid 原生代幣 HYPE 後續是否因流量爆發帶動估值重評。</div>
+      <div class="tags"><span class="tag">DeFi</span><span class="tag">衍生品</span><span class="tag">IPO</span><span class="tag">去中心化交易所</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/hormuz-reopening-framework-a-fragile-first-step-says-sp-global-20260615/" target="_blank" rel="noopener">標普全球：荷莫茲海峽重開框架脆弱，能源市場正常化恐拖至 2027 年</a></h3>
+      <div class="summary">標普全球（S&P Global）警告，即便 6 月 19 日合作備忘錄（MOU）順利簽署，下半年霍爾木茲海峽（Strait of Hormuz）貨運量仍僅能恢復至戰前的四分之三，保險限制、基礎設施損毀與殘餘風險將使地緣政治溢價嵌入油價，正常化進程延至 2027 年。這意味近期油價跌幅可能已接近底部，黃金因美元走弱預期而支撐偏多，但能源股短線反彈後需防「見光死」。建議密切追蹤 6/19 MOU 簽署細節及以色列黎巴嫩緊張局勢演變。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">能源</span><span class="tag">商品市場</span><span class="tag">伊朗</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/netanyahu-we-will-remain-in-lebanon-as-long-as-we-need-to-20260615/" target="_blank" rel="noopener">Netanyahu (納坦雅胡)：以色列將持續駐留黎巴嫩，和平協議存中等破局風險</a></h3>
+      <div class="summary">以色列總理納坦雅胡（Benjamin Netanyahu）聲稱將無限期駐軍黎巴嫩，且明言黎以雙方都有能力「炸毀」美伊和平協議，並估計發生機率「中等偏高」。這是美伊停戰最大尾部風險，若協議破裂油價將反彈，黃金避險需求亦將升溫。市場當前樂觀情緒部分建立在和平預期之上，投資人應對此保持警覺，避免過早減碼能源避險部位。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">中東局勢</span><span class="tag">伊朗</span><span class="tag">油價</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9568537" target="_blank" rel="noopener">6 月 16 日五大財經要事：美伊停戰紅利、Google 超級 AI 藍圖、富人稅研議</a></h3>
+      <div class="summary">今日關鍵事件聚焦三條主線：（一）美伊和平協議帶動四大產業（航空、塑化、散裝航運、鋼鐵）迎接和平紅利，直接影響個股布局；（二）Google 揭露 ASI（超級人工智慧）發展藍圖，聯發科、鴻海、廣達等台灣供應鏈扮演要角，AI 主題再添催化劑；（三）立院討論「富人稅」研議，若推進恐影響高資產投資人對台股的資金配置策略。建議今日重點觀察台綜院下半年經濟展望與日、澳央行利率決策對亞股連動。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">美伊協議</span><span class="tag">AI供應鏈</span><span class="tag">富人稅</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9568389" target="_blank" rel="noopener">台股外資單日大買 465 億元，指數暴漲 1,227 點收 45,396 點創歷史第四高收盤</a></h3>
+      <div class="summary">受美伊和平協議消息激勵，外資單日買超 465.3 億元力道罕見，台股終場大漲 1,227 點，收復萬五關卡（45,000 點）及 10 日線，為史上第八大單日漲點。這波反彈帶有明確的事件驅動性質：油價下跌直接利好航運、塑化、航空族群，同時降通膨預期支撐科技股評價。後續關注連假後（6/16）買盤是否持續歸隊，以及 6/19 MOU 正式簽署後「buy the rumor, sell the news」風險。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">外資</span><span class="tag">美伊協議</span><span class="tag">行情展望</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/options-traders-are-bracing-for-a-very-busy-week-with-june-triple-witching-and-launch-of-spacex-contracts-on-deck-b38fbf62?mod=mw_rss_topstories" target="_blank" rel="noopener">六月「三重到期日」疊加 SpaceX 期權上市，本週選擇權市場將極度波動</a></h3>
+      <div class="summary">本週美股面臨「三重到期日」（Triple Witching，股票期貨、股票選擇權、指數選擇權同時到期）與 SpaceX 期權合約首次上市雙重衝擊，疊加美伊協議消息市場大幅波動，隱含波動率有望顯著抬升。對台灣投資人而言，美股劇烈波動恐傳染亞股，尤其台積電 ADR 的波動可能提前反映台股下週走勢。建議短線避免過度集中槓桿部位。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">選擇權</span><span class="tag">市場波動</span><span class="tag">SpaceX</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/finance/global-stocks-markets-dow-news-06-15-2026-c6898869?mod=rss_markets_main" target="_blank" rel="noopener">若霍爾木茲海峽正式重開，美股仍有更大上漲空間</a></h3>
+      <div class="summary">道瓊（Dow Jones）工業指數創下歷史新高，油價大跌、公債上漲，市場對美伊和平協議反應熱烈。華爾街日報分析指出，若海峽正式重開能帶動通膨降溫，聯準會（Fed）將獲得更大降息空間，屆時美股估值有望進一步擴張。然而，以色列的不確定態度構成最大尾部風險，投資人宜在享受上漲的同時，對 6/19 MOU 簽署前後的波動保持防禦準備。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">地緣政治</span><span class="tag">油價</span><span class="tag">聯準會</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/950264/meta-ai-mode-search-facebook" target="_blank" rel="noopener">Meta (元宇宙公司) 在 Facebook 推出 AI 模式搜尋，從公開貼文中提取資訊</a></h3>
+      <div class="summary">Meta 在 Facebook 推出「AI 模式」搜尋功能，直接從用戶公開貼文中萃取資料生成 AI 搜尋結果，此舉讓 Meta 龐大的社群圖譜成為獨特的 AI 訓練與推論資產。相較於 Google 與 OpenAI 的通用搜尋 AI，Meta 的社交脈絡數據構成差異化護城河，但也引發隱私疑慮。這是 Meta 追趕 AI 競爭對手的重要一步，連帶影響廣告生態與用戶留存策略，台灣科技廣告投放業者可觀察其對受眾定向效果的改變。</div>
+      <div class="tags"><span class="tag">Meta</span><span class="tag">AI搜尋</span><span class="tag">社群媒體</span><span class="tag">大型語言模型</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/950026/anthropic-fable-mythos-ban-ai-shutdown" target="_blank" rel="noopener">Anthropic 旗下 Fable 5 與 Mythos 5 遭白宮下令封鎖境外存取，AI 監管衝突升級</a></h3>
+      <div class="summary">美國白宮於 6 月 12 日下令 Anthropic 封鎖所有境外人員對 Fable 5（寓言 5）與 Mythos 5 的存取，連 Anthropic 自家境外員工亦受影響，事件背景疑似涉及中國機構取得 Mythos 5 存取權的國安疑慮。這是美國政府首次以出口管制手段直接干預 AI 前沿模型的商業發布，對全球 AI 生態影響深遠：非美國用戶對依賴美國 AI 服務的風險意識將大幅提升，歐洲與亞洲主權 AI 的論述也將獲得新的推力。</div>
+      <div class="tags"><span class="tag">AI監管</span><span class="tag">Anthropic</span><span class="tag">地緣政治</span><span class="tag">國家安全</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://news.ycombinator.com/item?id=48542100" target="_blank" rel="noopener">Hacker News 熱議：有人真的用本地模型完全取代 Claude/GPT 日常編程嗎？</a></h3>
+      <div class="summary">這篇獲得 547 票的 Hacker News 討論帖揭示開發者社群對本地 AI 模型替代雲端 LLM 的真實態度：高度興趣但實際採用率仍低，主要障礙是推理速度（tok/s）與多步驟代碼理解能力的落差。對於開發工具廠商與 AI 服務提供商而言，這是一個重要的市場情緒訊號——開發者對隱私、延遲與成本的敏感度正在上升，本地推理硬體（如 Apple Silicon）的競爭力越來越值得關注。</div>
+      <div class="tags"><span class="tag">本地LLM</span><span class="tag">開發工具</span><span class="tag">AI編程</span><span class="tag">隱私</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://github.com/nex-agi/Nex-N2/issues/4" target="_blank" rel="noopener">里約熱內盧「自研」LLM 疑為現有模型合併版，政府 AI 品牌可信度受質疑</a></h3>
+      <div class="summary">巴西里約熱內盧聲稱自主研發的大型語言模型被研究者在 GitHub 上舉報，疑似只是對現有開源模型進行合併（model merge）而非從頭訓練，此事在 Hacker News 引發 394 票、212 則留言的熱烈討論。此案揭示「主權 AI」敘事背後的可信度問題，對正在推動國產 AI 的各國政府（包括台灣）具有參考意義：AI 能力宣稱需要有可驗證的技術依據，否則將面臨公眾信任危機。</div>
+      <div class="tags"><span class="tag">主權AI</span><span class="tag">開源LLM</span><span class="tag">模型合併</span><span class="tag">AI治理</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
