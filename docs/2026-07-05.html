@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-07-05</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 7 月 5 日（日）</div>
+    <div class="stats">
+      <span>10 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/407170/nearly-1-million-wallets-are-down-3-81-billion-on-trumps-memecoin-report?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">近百萬錢包在川普迷因幣上虧損38.1億美元</a></h3>
+      <div class="summary">川普年度財報揭露其迷因幣相關收入達14億美元以上，但近百萬名投資人合計已虧損38.1億美元。事件凸顯政治人物發幣的高度爭議性與散戶承擔的巨大風險。建議投資人對政治關聯迷因幣保持高度警戒，避免追高。</div>
+      <div class="tags"><span class="tag">迷因幣</span><span class="tag">政治</span><span class="tag">監管風險</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinDesk</div>
+      <h3><a href="https://www.coindesk.com/markets/2026/07/04/bitcoin-jumps-above-usd63-000-reversing-end-june-losses" target="_blank" rel="noopener">比特幣站上6.3萬美元，扭轉六月底跌勢</a></h3>
+      <div class="summary">比特幣價格反彈突破63,000美元，收復先前跌幅。此反彈與ETF資金回流及市場風險情緒回穩同步出現，顯示短線信心回升。可留意能否站穩此關卡以確認趨勢轉強。</div>
+      <div class="tags"><span class="tag">比特幣</span><span class="tag">價格走勢</span><span class="tag">ETF資金流</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">1 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/the-us-consumer-is-stressed-but-spending-on-cats-is-on-fire-according-to-general-mills-20260703/" target="_blank" rel="noopener">美國消費者「壓力山大」但貓咪消費「熱到發燙」：General Mills示警</a></h3>
+      <div class="summary">食品大廠General Mills財報揭示美國消費者持續承壓，公司已按此假設規劃營運而非期待好轉。此為觀察美國消費韌性與通膨壓力的重要指標，對黃金等避險資產具參考意義。建議關注後續消費數據以評估避險需求。</div>
+      <div class="tags"><span class="tag">消費者信心</span><span class="tag">通膨</span><span class="tag">避險需求</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9607269" target="_blank" rel="noopener">15檔Q3漲價概念股法人卡位 中石化、中美晶等動能強勁</a></h3>
+      <div class="summary">AI伺服器出貨強勁帶動電子零組件漲價題材，三大法人上周加碼中石化、南亞、中美晶等15檔個股。儘管評價已高，資金仍持續輪動至漲價概念股，顯示市場對AI供應鏈信心未減。可留意籌碼集中且法人加碼標的的延續動能。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">AI供應鏈</span><span class="tag">法人動向</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9607231" target="_blank" rel="noopener">外資獨寵績優股蓄勢衝鋒 京元電、合晶等市場高度關注</a></h3>
+      <div class="summary">外資上周雖大舉調節現貨1,392.9億元，卻逆勢加碼基本面紮實的績優股如京元電、合晶、光寶科。此現象顯示外資在整體調節下仍精選優質標的布局，而非全面看空。建議關注外資逆勢加碼且籌碼穩定的個股表現。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">外資動向</span><span class="tag">半導體</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/markets/stocks/articles/chatgpt-maker-openai-headed-1-221000694.html" target="_blank" rel="noopener">ChatGPT開發商OpenAI擬進行估值1兆美元IPO，微軟股價或為最大贏家</a></h3>
+      <div class="summary">市場預期OpenAI最終將以估值達1兆美元進行首次公開發行，作為主要投資方的微軟(Microsoft)可望是最大受益者。此消息若成真，將是史上規模最大的科技業IPO之一，對AI概念股估值具指標意義。建議關注微軟股價對此消息的反應及後續IPO時程進展。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">IPO</span><span class="tag">微軟</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/gamer-trades-in-1-000-of-physical-discs-at-gamestop-days-after-sony-announces-end-of-disc-era-bf8383b7?mod=mw_rss_topstories" target="_blank" rel="noopener">Sony宣布光碟時代終結後，玩家帶著千元美金遊戲光碟到GameStop變現</a></h3>
+      <div class="summary">在Sony宣布終結實體光碟時代後不久，一名玩家將價值1,000美元的實體遊戲光碟賣給GameStop套現。事件反映消費者對實體媒體收藏價值的疑慮升溫，可能加速零售通路轉型壓力。可觀察GameStop等實體零售商後續營運模式調整。</div>
+      <div class="tags"><span class="tag">零售</span><span class="tag">遊戲產業</span><span class="tag">消費趨勢</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/07/04/midjourney-wants-hollywood-studios-to-reveal-the-details-of-their-ai-usage/" target="_blank" rel="noopener">Midjourney要求好萊塢片廠揭露其AI使用細節</a></h3>
+      <div class="summary">在與三家好萊塢片廠的訴訟中，Midjourney反過來要求對方揭露自身如何使用AI技術。此舉可能成為AI版權訴訟的重要攻防策略，也凸顯內容產業對AI使用的雙重標準爭議。可留意此案後續發展對AI版權訴訟先例的影響。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">版權訴訟</span><span class="tag">好萊塢</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/07/04/alibaba-reportedly-bans-employees-from-using-claude-code/" target="_blank" rel="noopener">傳阿里巴巴禁止員工使用Claude Code</a></h3>
+      <div class="summary">據報導，阿里巴巴已將Claude Code列為高風險軟體並禁止員工使用。此舉反映中國科技巨頭對外國AI工具的資安與地緣政治疑慮升高。建議關注後續是否有更多中國企業跟進限制外國AI工具使用。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">地緣政治</span><span class="tag">資安</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">1 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.elenaverna.com/p/please-stop-the-ai-confidence-theater" target="_blank" rel="noopener">別再演「AI信心大戲」了</a></h3>
+      <div class="summary">Hacker News熱門文章批評業界過度包裝AI能力、營造不實信心的現象，獲得232讚及254則討論。文章反映開發者社群對AI炒作與實際能力落差的反思聲浪漸增。建議在評估AI相關產品或投資時，多以實測結果而非行銷話術為準。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">產業評論</span><span class="tag">開發者社群</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
