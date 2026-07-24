@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-07-25</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 7 月 25 日（六）</div>
+    <div class="stats">
+      <span>11 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/409652/bitcoin-policy-institute-palantir-anduril-us-state-departments-freedom-tech-excellence-program?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">比特幣政策研究院、Palantir 與 Anduril 加入美國國務院「自由科技卓越計畫」</a></h3>
+      <div class="summary">美國國務院的自由科技卓越計畫納入比特幣政策研究院、Palantir 與 Anduril 等軍工與加密政策機構作為合作夥伴。此舉顯示美國官方將比特幣/區塊鏈技術與國家安全、國防科技產業連結的趨勢加深。中長期可視為美國政策面對加密產業轉趨友善的訊號之一。</div>
+      <div class="tags"><span class="tag">政策</span><span class="tag">比特幣</span><span class="tag">國防科技</span><span class="tag">美國政府</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/htx-exchange-european-union-russia-sanctions?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">歐盟將 HTX 交易所列入對俄制裁名單</a></h3>
+      <div class="summary">歐盟把 HTX 交易所列入對俄羅斯制裁的 18 個實體之一，理由是其提供加密資產與支付服務規避制裁。此舉延續英國先前的制裁動作，顯示歐美監管機關對交易所合規的審查力道持續加強。建議留意其他大型交易所是否也面臨類似地緣政治合規壓力。</div>
+      <div class="tags"><span class="tag">監管</span><span class="tag">地緣政治</span><span class="tag">交易所</span><span class="tag">制裁</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/ny-times-trump-meets-with-top-advisors-to-decide-whether-to-increase-military-pressure-on-iran/" target="_blank" rel="noopener">紐約時報：川普與高層顧問會商是否升高對伊朗軍事壓力</a></h3>
+      <div class="summary">川普週五與國安顧問及內閣官員會面，討論是否加大對伊朗的軍事行動，此因停火瓦解及原定重啟核談的備忘錄破局所致。地緣政治風險升溫是近期黃金避險需求與油價波動的主要驅動因素。建議關注黃金與原油價格對此類頭條的敏感度，逢消息面反覆時可分批布局避險部位。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">伊朗</span><span class="tag">黃金避險</span><span class="tag">原油</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/eu-fines-today-trump-301-tariffs-tomorrow/" target="_blank" rel="noopener">歐盟今日開罰科技巨頭，川普明日可能祭出301關稅反制</a></h3>
+      <div class="summary">川普在社群平台批評歐盟接連對蘋果、Meta、亞馬遜及 Google（累計對 Google 罰款已逾 180 億美元）開罰，暗示可能以301條款關稅反制歐盟。貿易戰風險再度升溫，恐衝擊美歐科技股與跨境供應鏈，同時利多黃金等避險資產。建議留意後續美方是否真的祭出關稅，作為風險資產配置調整的觸發點。</div>
+      <div class="tags"><span class="tag">貿易戰</span><span class="tag">關稅</span><span class="tag">科技股</span><span class="tag">地緣政治</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9649846" target="_blank" rel="noopener">7月25日五件財經大事：美301關稅上路、台股跌破季線</a></h3>
+      <div class="summary">美國對60個經濟體課徵至少10%新關稅（對台關稅10%不疊加），同日立院三讀通過兒少未來帳戶條例，而台股因中東戰事及AI疑慮再跌千點破季線。多項政策與市場消息同日發酵，顯示總體經濟政策與市場風險交織的複雜局面。建議同步關注美國對台關稅實際落地細節，評估對出口導向類股的影響。</div>
+      <div class="tags"><span class="tag">關稅</span><span class="tag">台股</span><span class="tag">政策</span><span class="tag">總經</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9649684" target="_blank" rel="noopener">台股崩跌逾千點，法人喊「升」機：週一站回季線可挑戰4萬5</a></h3>
+      <div class="summary">受美伊戰事擴大、通膨疑慮升溫及AI變現疑慮衝擊，台股昨日暴跌1,195點，創史上第九大單日跌點，收在43,654點並跌破季線，儘管國家隊護盤買超逾130億元仍未能止跌。法人認為，若下週一能站回季線，指數仍有機會挑戰月線45,171點的高點，顯示短線超跌後存在反彈契機。建議操作上留意季線得失，逢低分批布局籌碼面較穩的權值股。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">地緣政治</span><span class="tag">技術面</span><span class="tag">AI</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">1 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/finance/currencies/prediction-markets-race-heats-up-as-robinhood-and-crypto-com-hold-talks-9fc211dd?mod=rss_markets_main" target="_blank" rel="noopener">預測市場戰局升溫：Robinhood 與 Crypto.com 傳洽談合作</a></h3>
+      <div class="summary">券商 Robinhood 與加密交易所 Crypto.com 傳出就預測市場業務展開談判，若成局將使 Robinhood 在此領域與 Kalshi 形成更直接的競爭。預測市場近期成為金融科技業新戰場，傳統券商與加密平台加速跨界卡位。建議關注 Robinhood 後續官方公告及此舉對其股價與業務多元化的影響。</div>
+      <div class="tags"><span class="tag">預測市場</span><span class="tag">券商</span><span class="tag">加密貨幣</span><span class="tag">併購</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/07/24/why-cognition-bought-poke-ai-personality-is-becoming-a-competitive-advantage/" target="_blank" rel="noopener">Cognition 為何收購 Poke：AI「個性」成為新競爭優勢</a></h3>
+      <div class="summary">程式碼代理 Devin 的開發商 Cognition 收購對話式 AI 新創 Poke，將其擅長的對話風格與互動模式融入 Devin。此案反映業界逐漸認為 AI 助理「如何與用戶互動」與底層模型能力同等重要的趨勢。建議觀察此類「產品體驗差異化」併購是否成為 AI 新創下一波整併主軸。</div>
+      <div class="tags"><span class="tag">AI併購</span><span class="tag">AI代理</span><span class="tag">產品策略</span><span class="tag">新創</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/ai-artificial-intelligence/970105/claude-opus-5-announced-anthropic-ai-model-release" target="_blank" rel="noopener">Anthropic 發布 Opus 5，能力「接近」Fable 5</a></h3>
+      <div class="summary">Anthropic 週四發布新旗艦模型 Claude Opus 5，官方表示其能力在許多領域「接近」該公司更高階的 Fable 5，且定價更親民、限制更少。此發布緊接在 Anthropic 與美國政府的交手，以及 OpenAI 資安事件引發業界討論之後，凸顯頂尖模型競爭持續白熱化。建議關注 Opus 5 對企業級應用定價策略與市占率的影響。</div>
+      <div class="tags"><span class="tag">Anthropic</span><span class="tag">大型語言模型</span><span class="tag">AI競爭</span><span class="tag">產品發布</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.anthropic.com/news/claude-opus-5" target="_blank" rel="noopener">Claude Opus 5 登上 Hacker News 熱門榜（1149讚、622則討論）</a></h3>
+      <div class="summary">Anthropic 發布 Opus 5 系統卡在 Hacker News 引發熱烈討論，獲得1,149個讚與622則留言，顯示開發者社群對新模型能力與安全性高度關注。此討論熱度也反映開發者社群將是新模型採用速度的重要指標。建議關注討論串中對模型實測表現與相較 GPT/Gemini 的比較意見。</div>
+      <div class="tags"><span class="tag">Anthropic</span><span class="tag">開發者社群</span><span class="tag">AI模型</span><span class="tag">Hacker News</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.theguardian.com/technology/2026/jul/24/openai-rogue-hacker" target="_blank" rel="noopener">對 OpenAI「流氓駭客代理」事件應保持懷疑</a></h3>
+      <div class="summary">衛報報導質疑 OpenAI 近期一起「AI代理失控駭客攻擊」事件的敘事真實性，該話題在 Hacker News 獲得361讚與191則討論。此事件反映業界對 AI 安全事故報導的可信度與炒作程度存在爭議，也呼應近期 AI 安全防護與監管討論升溫的背景。建議在未有官方獨立調查結果前，對此類「AI失控」報導保持審慎態度。</div>
+      <div class="tags"><span class="tag">OpenAI</span><span class="tag">AI安全</span><span class="tag">資安</span><span class="tag">媒體報導</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
