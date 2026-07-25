@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-07-26</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 7 月 26 日（日）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/409668/eu-adds-htx-to-russia-sanctions-list-barring-transactions-starting-aug-23?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">歐盟將 HTX 交易所列入俄羅斯制裁名單，8月23日起禁止交易</a></h3>
+      <div class="summary">歐盟第21輪對俄制裁新增 HTX、EXMO 等多家加密交易平台，8月23日起相關交易一律禁止。此舉顯示西方持續收緊加密貨幣規避制裁的漏洞，將壓縮俄羅斯資金流通管道。涉及俄羅斯/灰色地帶交易的投資人應留意合規風險。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">監管</span><span class="tag">制裁</span><span class="tag">交易所</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/409665/robinhood-in-talks-to-add-crypto-com-prediction-markets-as-kalshi-rivalry-grows-wsj?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Robinhood 傳與 Crypto.com 洽談合作預測市場，加劇與 Kalshi 競爭</a></h3>
+      <div class="summary">據華爾街日報報導，Robinhood 正與 Crypto.com 商談合作，讓用戶可交易後者衍生品業務提供的是非合約，但目前尚未達成協議。此舉反映預測市場賽道競爭白熱化，Robinhood 意圖擴大版圖對抗 Kalshi。可關注後續正式協議是否成形及對兩家公司股價的催化效果。</div>
+      <div class="tags"><span class="tag">預測市場</span><span class="tag">券商</span><span class="tag">合作</span><span class="tag">監管</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-iran-not-ready-to-make-a-deal/" target="_blank" rel="noopener">川普：伊朗尚未準備好達成協議</a></h3>
+      <div class="summary">川普表示美伊雙方仍在談判但伊朗尚未準備好簽署協議，同時提及沙烏地阿拉伯應加入亞伯拉罕協議、將對加拿大課徵關稅。地緣政治不確定性持續籠罩市場，是近期黃金與原油避險買盤的主要支撐。建議持續關注中東局勢作為貴金屬部位的風向指標。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">伊朗</span><span class="tag">川普</span><span class="tag">避險</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/ny-times-trump-meets-with-top-advisors-to-decide-whether-to-increase-military-pressure-on-iran/" target="_blank" rel="noopener">紐約時報：川普與高層顧問會商是否加大對伊朗軍事壓力</a></h3>
+      <div class="summary">川普週五與高階顧問及內閣官員會面，討論是否升級對伊朗的軍事行動，此舉發生於停火協議與備忘錄雙雙破裂之後。若軍事升級成真，將進一步推升原油與避險資產價格，市場波動風險加大。建議提高對油價與黃金的短期波動預期。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">伊朗</span><span class="tag">軍事</span><span class="tag">原油</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9651110" target="_blank" rel="noopener">「神速填息股」後勁十足，大立光、台塑化等股息價差雙賺</a></h3>
+      <div class="summary">受惠 AI 需求強勁帶動企業獲利上修，台股大型權值股填息力道兇猛，台積電等多檔一日速填息，大立光、台塑化、華邦電除息後更狂飆逾六成。顯示資金持續聚焦AI供應鏈龍頭股，填息行情延續多頭氣勢。可留意後續除權息旺季中具備獲利成長動能的權值股。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">AI</span><span class="tag">除權息</span><span class="tag">權值股</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/8543/9651132" target="_blank" rel="noopener">股海自由行：半導體供應鏈升級利多不斷</a></h3>
+      <div class="summary">近期市場面臨地緣政治緊張推升油價（布蘭特突破每桶百美元）及美債殖利率彈升至4.69%高檔的雙重壓力，激勵通膨與升息疑慮升溫，高估值資產面臨獲利了結賣壓。不過半導體供應鏈仍受惠技術升級題材，逢低布局價值浮現。建議留意油價與美債殖利率變化對成長股估值的壓抑效應。</div>
+      <div class="tags"><span class="tag">半導體</span><span class="tag">總經</span><span class="tag">殖利率</span><span class="tag">原油</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/markets/stocks/articles/figma-vs-ibm-revenue-growth-223501181.html" target="_blank" rel="noopener">Figma 對比 IBM：從營收成長趨勢看年輕軟體設計公司與AI科技老將的差異</a></h3>
+      <div class="summary">文章比較新興軟體設計公司 Figma (Figma) 與老牌科技巨頭 IBM (IBM) 的營收成長趨勢，凸顯新創與傳統科技巨頭在AI浪潮下的不同成長軌跡。對投資人而言，此類比較有助評估成長股與價值股在AI主題中的相對配置。可作為科技股選股時成長性與估值權衡的參考。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">AI</span><span class="tag">科技股</span><span class="tag">財報</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-apple-earnings-iran-news-fed-meeting-ai-stocks/?src=A00220&yptr=yahoo" target="_blank" rel="noopener">道瓊期貨觸發賣出訊號，蘋果財報、伊朗局勢與Fed會議成焦點</a></h3>
+      <div class="summary">市場出現賣出訊號警訊，本週投資人聚焦蘋果財報、伊朗地緣政治情勢及聯準會利率決策等三大變數。多重不確定因素交織可能加劇短線波動，AI類股尤其敏感。建議控制部位並密切關注下週Fed會議與科技巨頭財報表現。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">聯準會</span><span class="tag">財報季</span><span class="tag">地緣政治</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/07/25/one-fallen-power-line-exposed-a-growing-ai-data-center-problem-heres-how-to-fix-it/" target="_blank" rel="noopener">一條倒下的電線暴露AI資料中心的成長隱憂，該如何解決</a></h3>
+      <div class="summary">北維吉尼亞一起電線故障事件，揭露AI資料中心面對電網中斷時應變能力嚴重不足的問題。隨著AI算力需求暴增，資料中心用電規模與電網韌性之間的落差日益凸顯，可能成為AI基礎建設擴張的隱藏風險。建議關注電力基礎設施類股及資料中心營運商的韌性升級投資。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">資料中心</span><span class="tag">能源</span><span class="tag">基礎建設</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m/" target="_blank" rel="noopener">Reid Hoffman、Mark Pincus 共同創辦的新AI實驗室 Prentis 洽談募資1億美元</a></h3>
+      <div class="summary">新創AI實驗室 Prentis 由知名創業家 Reid Hoffman（霍夫曼）與 Mark Pincus（平克斯）共同創立，正洽談募資一億美元。該實驗室押注自動化例行電腦任務將很快超越程式撰寫，成為AI最大應用場景。此發展顯示AI應用重心可能從程式生成轉向更廣泛的辦公自動化，值得關注相關賽道新創估值變化。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">新創</span><span class="tag">募資</span><span class="tag">自動化</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://tobi.knaup.me/2026-07-25-open-weight-ai-is-having-its-kubernetes-moment/" target="_blank" rel="noopener">開放權重AI正迎來屬於自己的「Kubernetes時刻」</a></h3>
+      <div class="summary">文章指出開放權重（open-weight）AI模型生態正經歷類似 Kubernetes 當年顛覆基礎設施產業的典範轉移，標準化與編排工具將成為關鍵戰場。此趨勢反映開源AI基礎設施競爭將從單一模型優劣轉向生態系與工具鏈整合能力。開發者與企業可提前布局開放權重模型的部署與編排工具鏈。</div>
+      <div class="tags"><span class="tag">開源</span><span class="tag">AI基礎建設</span><span class="tag">開發工具</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/opencomputer" target="_blank" rel="noopener">OpenComputer：部署代理程式（Agent）最簡單的方式</a></h3>
+      <div class="summary">新產品 OpenComputer 在 Product Hunt 上架，主打「最簡單方式部署受管理的AI代理程式」。此類工具降低了企業與開發者導入自主AI代理的技術門檻，反映AI Agent基礎設施賽道持續升溫。可留意此類部署平台是否會成為AI Agent普及化的關鍵基礎工具。</div>
+      <div class="tags"><span class="tag">AI Agent</span><span class="tag">開發工具</span><span class="tag">新產品</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
