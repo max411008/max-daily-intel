@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-08-06</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 8 月 6 日（四）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/post/410923/blocks-bitcoin-gross-profit-falls-31-cash-app-fee-cuts-shares-reverse-initial-gains?utm_source=rss&utm_medium=rss" target="_blank" rel="noopener">Block 比特幣毛利季減 31%，Cash App 降費衝擊獲利</a></h3>
+      <div class="summary">Block（原 Square）因 Cash App 手續費調降導致比特幣業務毛利年減 31%，公布財報後股價一度反轉。儘管如此，公司仍上調 2026 年整體毛利預測至 125.1 億美元，顯示核心業務韌性仍在。投資人可留意 Block 是否能靠 AI 裁員降本（詳見美股板塊）抵銷比特幣業務的獲利壓力。</div>
+      <div class="tags"><span class="tag">比特幣</span><span class="tag">財報</span><span class="tag">支付產業</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/senator-lummis-clarity-vote-movement-calendar?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Lummis 議員力拚國會休會前通過 CLARITY 法案</a></h3>
+      <div class="summary">美國參議院正搶在 8 月休會前為加密貨幣市場結構法案（CLARITY Act）舉行程序性表決，但倫理爭議與執法疑慮讓進度陷入僵局。若本次錯過表決，法案恐拖到 2026 選舉季後才能再議，將延長加密產業監管不確定性。建議持續關注國會動態，法案通過與否將直接影響美國合規交易所與穩定幣業者的中期布局。</div>
+      <div class="tags"><span class="tag">監管政策</span><span class="tag">美國國會</span><span class="tag">穩定幣</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-americas-market-news-wrap-gold-storms-higher/" target="_blank" rel="noopener">美市總結：黃金強勢走高，美股延續破紀錄行情</a></h3>
+      <div class="summary">美國 7 月 ISM 服務業指數 54.1 略低於預期，但 ADP 就業僅增 4.4 萬人遠遜預期 7 萬人，就業疲軟疑慮升溫，資金轉向避險黃金推動金價走高。同時美股延續破紀錄漲勢，顯示市場在「疲軟就業＋強勁服務業」的混合訊號下呈現risk-on與避險並存的矛盾格局。建議關注就業數據疲弱是否會強化降息預期，進一步支撐金價。</div>
+      <div class="tags"><span class="tag">黃金</span><span class="tag">就業數據</span><span class="tag">聯準會</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-july-adp-national-employment-k-vs-70k-expected/" target="_blank" rel="noopener">美國 7 月 ADP 就業僅增 4.4 萬人，遠低於預期 7 萬人</a></h3>
+      <div class="summary">美國民間就業增長大幅不如預期，前值亦從 9.8 萬下修至 9.5 萬，顯示就業市場降溫速度快於市場估計，其中服務業與大型企業就業增長明顯放緩。就業數據疲弱強化市場對聯準會降息的預期，是推動金價與美股同步走高的關鍵因素。建議追蹤即將公布的非農就業報告以確認就業降溫趨勢是否延續。</div>
+      <div class="tags"><span class="tag">就業數據</span><span class="tag">美國經濟</span><span class="tag">聯準會</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9673633" target="_blank" rel="noopener">鴻海 7 月營收衝上 9,465 億元新高，年增 54.19%</a></h3>
+      <div class="summary">鴻海公布 7 月合併營收首度突破 9,000 億元大關、達 9,465.1 億元，年增幅度高達 54.19%，本月更有望叩關兆元大關，反映 AI 伺服器與相關供應鏈需求持續強勁。此外南亞科加碼 DRAM 資本支出、SpaceX 全面導入輝達晶片亦帶動台積電、鴻海、緯創等供應鏈受惠。建議關注鴻海能否延續動能站上兆元月營收里程碑，作為觀察 AI 供應鏈景氣的重要指標。</div>
+      <div class="tags"><span class="tag">鴻海</span><span class="tag">AI供應鏈</span><span class="tag">營收</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9673499" target="_blank" rel="noopener">台股「雙軋行情」蓄勢上攻，四天大漲 4,678 點</a></h3>
+      <div class="summary">台股受惠美股大漲與法說會佳音，在台積電等權值股領軍、外資回補買超帶動下出現軋空單與軋空手的雙軋行情，昨日大漲 1,250 點收 44,611 點，四個交易日累計大漲 4,678 點，成交額擴大至 1.2 兆元。短線可望挑戰 45K 至 46K 關卡，但漲勢急遽也意味短線震盪風險升高。建議追高者留意量能是否能持續支撐，套牢族可評估分批減碼解套。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">軋空行情</span><span class="tag">外資動向</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/block-slashed-40-of-its-workforce-for-ai-and-earnings-suggest-thats-paying-off-852b7c54?mod=mw_rss_topstories" target="_blank" rel="noopener">Block 裁減 40% 人力轉向 AI，財報顯示成效顯著</a></h3>
+      <div class="summary">Block 裁減 40% 員工並將資源轉向 AI 應用，公司高層表示此舉讓產品開發速度大幅提升、品質更佳，財報表現優於市場預期。此案例顯示企業以 AI 取代人力進行組織精簡的趨勢正在加速，且已開始反映在實際獲利數字上。建議關注更多科技公司是否跟進類似的 AI 驅動裁員與效率提升策略。</div>
+      <div class="tags"><span class="tag">Block</span><span class="tag">AI轉型</span><span class="tag">企業裁員</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/spacexs-stock-falls-as-wall-street-gets-spooked-by-the-extent-of-ai-spending-9ce9ddb8?mod=mw_rss_topstories" target="_blank" rel="noopener">SpaceX 股價重挫，華爾街憂心 AI 支出規模過大</a></h3>
+      <div class="summary">摩根士丹利預估 SpaceX 今年資本支出將高達 640 億美元，龐大的 AI 投資規模令華爾街投資人感到不安，股價因此下跌，並連帶拖累 AT&T、Verizon、T-Mobile 等電信股（因 SpaceX 揚言以衛星寬頻取代傳統電信網路投資）。同日 Nvidia 股價卻因馬斯克表態 SpaceX 將全面採用其晶片而受惠走高。建議關注 SpaceX 解禁股份釋出與 AI 資本支出對其現金流的壓力是否持續發酵。</div>
+      <div class="tags"><span class="tag">SpaceX</span><span class="tag">AI支出</span><span class="tag">美股</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/05/meta-launches-muse-code-an-ai-agent-for-large-code-bases/" target="_blank" rel="noopener">Meta 推出 Muse Code，鎖定大型程式碼庫的 AI 代理</a></h3>
+      <div class="summary">Meta 擴大其 AI 程式開發產品線，推出新一代 AI 代理 Muse Code，號稱能處理複雜軟體中的複雜任務，直接與 Anthropic、OpenAI 等業者的程式碼助理工具正面競爭。此舉顯示各大科技巨頭在 AI 程式開發代理領域的軍備競賽持續升溫。建議開發者留意 Muse Code 實際處理大型專案的能力表現，評估是否值得納入團隊工作流程。</div>
+      <div class="tags"><span class="tag">Meta</span><span class="tag">AI程式開發</span><span class="tag">科技巨頭</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/05/jeff-dean-and-other-top-ai-researchers-are-leaving-google-to-launch-their-own-startup/" target="_blank" rel="noopener">Google 高層大洗牌，AI 傳奇人物 Jeff Dean 出走創業</a></h3>
+      <div class="summary">Google 首席科學家、公司元老級人物 Jeff Dean 將率多名離職高層共同創立新公司，目標是運用 AI 推動科學發現進程，同時 Google DeepMind 領導人 Demis Hassabis 也轉任 DeepMind 董事長暨 Alphabet 首席科學家。此波高層異動反映 Google 在 AI 人才保留與內部組織架構上面臨重大挑戰，消息傳出後 Alphabet 股價應聲下跌。建議關注新創公司後續動向及其對 Google AI 研發實力的潛在衝擊。</div>
+      <div class="tags"><span class="tag">Google</span><span class="tag">人才流失</span><span class="tag">AI研究</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/dover" target="_blank" rel="noopener">Dover MCP：透過 Claude 或 ChatGPT 直接執行招聘流程</a></h3>
+      <div class="summary">新產品 Dover MCP 讓企業能直接透過 Claude 或 ChatGPT 等 AI 助理介面管理整個招聘流程，是 MCP（Model Context Protocol）生態系持續擴張至企業垂直應用的又一案例。此類工具顯示 AI 代理正逐步滲透至傳統 HR 工作流程，降低招聘作業的操作門檻。可作為觀察 MCP 生態系商業化落地速度的參考指標。</div>
+      <div class="tags"><span class="tag">MCP</span><span class="tag">AI招聘</span><span class="tag">生產力工具</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/" target="_blank" rel="noopener">AI 助長非洲逾半數網路犯罪，詐騙案件激增：Interpol</a></h3>
+      <div class="summary">國際刑警組織（Interpol）最新報告指出，AI 技術已成為非洲地區網路犯罪與詐騙案件激增的主要推手，助長逾半數的相關犯罪活動。此報告凸顯 AI 生成內容與自動化工具被濫用於詐騙的風險正在全球擴散，尤其在監管與防護能力較弱的地區更為明顯。建議關注 AI 詐騙防禦工具與跨國執法合作的發展，作為評估相關資安投資機會的參考。</div>
+      <div class="tags"><span class="tag">AI犯罪</span><span class="tag">資安</span><span class="tag">國際刑警組織</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
