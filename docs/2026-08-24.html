@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-08-24</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 8 月 24 日（一）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/defi/2026-08-23-defi-lending-protocol-term-finance-loses-an-estimated-8-5-million-to-governance-exploit-412543" target="_blank" rel="noopener">DeFi借貸協議Term Finance遭治理漏洞攻擊 損失約850萬美元</a></h3>
+      <div class="summary">Term Finance的金庫提案雖有七天延遲與流動性提供者否決機制，仍被攻擊者繞過並竊走約850萬美元。事件顯示DeFi治理防護機制在實務上可能形同虛設，投資人應重新檢視類似協議的治理安全假設。建議持有相關資產者留意協議後續補償與修補公告。</div>
+      <div class="tags"><span class="tag">DeFi</span><span class="tag">資安</span><span class="tag">治理漏洞</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/business/2026-08-23-tethers-120-million-uruguay-bitcoin-mining-project-collapsed-over-a-power-contract-dispute-reuters-412536" target="_blank" rel="noopener">Tether在烏拉圭1.2億美元比特幣挖礦計畫因電力合約糾紛告吹</a></h3>
+      <div class="summary">路透報導指出，烏拉圭國營電力公司UTE已於2025年7月切斷Tether挖礦場電力，起因是Tether代表未出席修訂合約簽署會議。此事凸顯加密礦業高度依賴當地能源政策與合作關係，一旦生變將直接衝擊營運。建議關注Tether後續是否尋求其他地區替代據點。</div>
+      <div class="tags"><span class="tag">比特幣</span><span class="tag">挖礦</span><span class="tag">Tether</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/new-zealand-q2-retail-sales-have-slowed-much-worse-than-expected/" target="_blank" rel="noopener">紐西蘭第2季零售銷售大幅不如預期</a></h3>
+      <div class="summary">紐西蘭第2季零售銷售季增率為-0.5%，遠低於市場預期的+0.1%，年增率也從4.5%降至3.3%，顯示消費動能明顯降溫。油價飆漲被視為拖累消費支出的主因之一，紐幣匯價反應相對平淡。建議關注紐西蘭央行是否因消費疲弱調整貨幣政策立場。</div>
+      <div class="tags"><span class="tag">總體經濟</span><span class="tag">紐西蘭</span><span class="tag">零售銷售</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-canada-trade-talks-collapse-as-50-tariffs-take-effect-carney-vows-retaliation/" target="_blank" rel="noopener">美加貿易談判破裂 50%關稅生效 卡尼誓言報復</a></h3>
+      <div class="summary">美國與加拿大的貿易談判破裂，雙方互課50%關稅，加拿大總理卡尼誓言反制，重新為北美市場帶來跨境貿易風險。此事扭轉了市場先前對美加關係緩和的預期，加幣已明顯走弱，市場評論指其恐滑落至兌美元低點區間。建議關注加幣及相關避險資產（如黃金）的短線波動。</div>
+      <div class="tags"><span class="tag">貿易戰</span><span class="tag">外匯</span><span class="tag">加拿大</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9709576" target="_blank" rel="noopener">台股三利多加持 8月底、9月上旬有望重返4.7萬點大關</a></h3>
+      <div class="summary">市場專家看好上市櫃公司8月單月營收有望突破6兆元、外銷訂單年增64%達988億美元，加上輝達即將公布財報預期亮眼，三大利多可望助台股重返47K大關。此為短線做多情緒的重要催化劑，尤其輝達財報將牽動全球AI供應鏈評價。建議留意輝達財報公布後台積電、鴻海等權值股的連動反應。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">輝達</span><span class="tag">AI供應鏈</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9709580" target="_blank" rel="noopener">台股8月高檔震盪 21家企業市值突破兆元創新高</a></h3>
+      <div class="summary">儘管台股8月呈現高檔震盪格局，市值破兆元的上市櫃公司已達21家、創歷史新高，較去年底大增11家，其中八成屬AI供應鏈概念股。此現象顯示在全球資金競逐下，AI股仍是市場資金唯一的大贏家，類股集中度風險也隨之提高。建議投資人留意非AI類股補漲機會以分散風險。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">AI供應鏈</span><span class="tag">市值</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-market-rally-nvidia-crowdstrike-warsh/?src=A00220&yptr=yahoo" target="_blank" rel="noopener">道瓊期貨走弱 市場聚焦關稅議題、輝達與沃許動向</a></h3>
+      <div class="summary">道瓊期指因關稅議題升溫而走低，市場同時聚焦輝達即將公布的財報表現，以及聯準會理事人選沃許（Warsh）的相關動向。輝達財報向來被視為AI類股評價的風向球，其結果可能牽動整體美股風險偏好。建議提前關注財報前的選擇權隱含波動率變化以評估市場預期。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">輝達</span><span class="tag">關稅</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/stock-futures-slip-as-u-s-and-canada-appear-headed-for-trade-war-a9814b24?mod=mw_rss_topstories" target="_blank" rel="noopener">美股期貨走跌 美加恐爆發全面貿易戰</a></h3>
+      <div class="summary">由於美國與加拿大貿易談判瀕臨破裂，全面貿易戰風險升溫，週日美股指數期貨走低。加拿大是美國最大貿易夥伴之一，若貿易戰真正爆發，恐衝擊跨境供應鏈與消費品價格。建議關注鋼鐵、農產品等受關稅直接影響的類股後續走勢。</div>
+      <div class="tags"><span class="tag">貿易戰</span><span class="tag">美股</span><span class="tag">期貨</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/23/whos-behind-the-new-stealth-model-ox-alpha/" target="_blank" rel="noopener">神秘「隱身模型」Ox Alpha背後是誰？</a></h3>
+      <div class="summary">一個名為Ox Alpha的神秘新AI模型近期在網路上引發熱烈揣測，各界紛紛猜測其開發團隊背景與技術路線。此類「隱身模型」現象反映AI競賽白熱化下，廠商傾向先以匿名方式測試市場反應再正式亮相。建議關注該模型後續是否被主要實驗室認領，以判斷是否為既有大廠的試水之作。</div>
+      <div class="tags"><span class="tag">AI模型</span><span class="tag">產業動態</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/23/is-it-legal-to-train-ai-models-on-copyrighted-books-its-complicated/" target="_blank" rel="noopener">用受版權保護的書籍訓練AI模型合法嗎？情況相當複雜</a></h3>
+      <div class="summary">文章指出，絕大多數已出版作者在未經知情或同意的情況下，其作品已被用來訓練可能威脅其生計的AI工具，法律定位仍高度模糊。此爭議凸顯AI訓練資料來源合法性問題，未來可能影響各大AI實驗室的資料取得策略與訴訟風險。建議關注相關版權訴訟判決結果，以評估對AI產業商業模式的潛在衝擊。</div>
+      <div class="tags"><span class="tag">AI倫理</span><span class="tag">版權</span><span class="tag">法律爭議</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://forum.level1techs.com/t/why-your-local-llm-feels-dumber-than-it-is/253917" target="_blank" rel="noopener">為什麼你的本機LLM感覺比實際上還笨</a></h3>
+      <div class="summary">這篇討論串探討本機部署的大型語言模型為何實際表現常不如預期，在Hacker News上獲得高達417點讚、171則留言的熱烈討論。內容可能涉及量化、上下文長度限制或推論參數設定等因素導致效能落差。建議自架本機LLM的開發者參考討論串中提及的具體調校技巧以改善輸出品質。</div>
+      <div class="tags"><span class="tag">本機LLM</span><span class="tag">開發工具</span><span class="tag">效能調校</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://twitter.com/argofowl/status/2091150597374537729" target="_blank" rel="noopener">Anthropic疑似正在A/B測試Claude Code的降低推理強度版本</a></h3>
+      <div class="summary">有開發者在社群觀察到Anthropic似乎正在對Claude Code進行A/B測試，測試降低推理努力程度（effort level）的版本。此討論在Hacker News上引發高度關注（417則留言、196點讚），反映開發者社群對模型效能一致性與透明度的重視。建議持續關注官方是否對此做出說明，並留意自身使用時的模型表現是否有波動。</div>
+      <div class="tags"><span class="tag">Claude Code</span><span class="tag">Anthropic</span><span class="tag">開發工具</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
