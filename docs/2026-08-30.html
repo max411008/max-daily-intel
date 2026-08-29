@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-08-30</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 8 月 30 日（日）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/defi/2026-08-29-layer-1-blockchain-fogo-halts-mainnet-after-attacker-receives-400-million-fogo-tokens-10-of-circulating-supply-413064" target="_blank" rel="noopener">Layer 1公鏈Fogo遭駭客取得4億枚FOGO代幣，占流通量10%，主網緊急暫停</a></h3>
+      <div class="summary">Fogo公鏈的攻擊者取得約占創世供應4%、市值約300萬美元的代幣，官方緊急暫停主網運作。此事再度凸顯新興Layer 1鏈在驗證機制與代幣分配安全上的脆弱性，恐衝擊投資人對其信任。建議密切關注官方後續修復與代幣凍結/回收方案，短期避免介入相關生態資產。</div>
+      <div class="tags"><span class="tag">加密貨幣</span><span class="tag">資安</span><span class="tag">公鏈</span><span class="tag">駭客攻擊</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/markets/stellar-tokenized-rwa-market-nears-4b-after-fourfold-2026-growth?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">Stellar代幣化真實資產(RWA)市場規模暴增逾4倍，逼近40億美元</a></h3>
+      <div class="summary">Stellar網路上代幣化真實世界資產的市場規模今年成長超過四倍，逼近40億美元。這反映機構資金持續加速布局代幣化資產與Stellar生態，顯示RWA賽道熱度不減。可留意Stellar相關基礎建設及RWA發行方的中長期布局機會。</div>
+      <div class="tags"><span class="tag">加密貨幣</span><span class="tag">RWA代幣化</span><span class="tag">機構資金</span><span class="tag">Stellar</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-americas-fx-news-wrap-28-aug/" target="_blank" rel="noopener">美洲外匯市場收盤回顧：Fed官員鷹派發言，物價穩定數據「更令人擔憂」</a></h3>
+      <div class="summary">Fed理事Warsh(沃許)表示物價穩定相關數據「更令人擔憂」，同時Fed官員Hammack也暗示應盡快升息因應。密西根大學8月消費者信心終值51.7優於預期51.0，顯示鷹派訊號正在升溫，對黃金與美元走勢構成關鍵影響。建議關注後續Fed官員發言，黃金短線恐承壓，留意避險與升息預期的拉鋸。</div>
+      <div class="tags"><span class="tag">央行</span><span class="tag">黃金</span><span class="tag">美元</span><span class="tag">通膨</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/non-farm-payrolls-benchmark-revisions-trimmed-employment-by-79k-jobs/" target="_blank" rel="noopener">非農就業基準修正：過去一年就業人數下修7.9萬人</a></h3>
+      <div class="summary">美國非農就業基準修正顯示，截至今年3月的一年間就業人數不增反減7.9萬人，遠低於市場預期的增加18.3萬人，其中民間就業下修17.8萬人，零售業拖累最大。此為偏鴿訊號，顯示就業市場實際比先前公布數據疲弱，可能影響Fed後續貨幣政策判斷。建議留意此修正是否強化降息預期，進而支撐黃金與貴金屬價格。</div>
+      <div class="tags"><span class="tag">就業數據</span><span class="tag">央行</span><span class="tag">美元</span><span class="tag">黃金</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9722168" target="_blank" rel="noopener">17檔投信作帳股點火行情，奇鋐、南亞扛多頭大旗</a></h3>
+      <div class="summary">隨第3季進入尾聲，投信經理人績效衝刺期展開，包含奇鋐、南亞、創意、景碩等17檔上周獲投信積極加碼的權值股成為作帳行情焦點。投信作帳行情向來是台股月底常見的短線動能來源，值得留意相關個股籌碼面變化。可關注被投信持續加碼、基本面同步轉強的個股作短線布局參考。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">投信作帳</span><span class="tag">半導體</span><span class="tag">類股輪動</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9722174" target="_blank" rel="noopener">SEMICON Taiwan展登場，半導體展概念股成盤面焦點</a></h3>
+      <div class="summary">半導體年度盛事「SEMICON Taiwan 2026」將於9月2日至4日登場，適逢輝達(Nvidia)公布亮眼財報與樂觀展望，重新確立AI長線多頭架構。資金加速卡位先進製程、先進封裝及矽光子(CPO)等半導體指標股，帶動SEMICON概念股成為盤面最強焦點。可留意展前卡位行情，並注意展會期間題材兌現後的獲利了結風險。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">半導體</span><span class="tag">AI</span><span class="tag">輝達</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/energy/articles/chevron-vs-occidental-oil-majors-223500434.html" target="_blank" rel="noopener">雪佛龍(Chevron) vs. 西方石油(Occidental)：誰的股息真的比較安全？</a></h3>
+      <div class="summary">文章比較兩大石油巨頭雪佛龍與西方石油的股息安全性與財務體質差異。在油價波動與能源類股估值分歧的背景下，股息穩定性是存股族選股關鍵指標之一。建議偏好高股息穩健標的的投資人可留意雪佛龍相對較低的槓桿與較長派息紀錄。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">能源類股</span><span class="tag">股息</span><span class="tag">石油</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Yahoo Finance</div>
+      <h3><a href="https://finance.yahoo.com/energy/articles/solar-crossed-critical-economic-tipping-210000010.html" target="_blank" rel="noopener">太陽能產業跨過關鍵經濟臨界點</a></h3>
+      <div class="summary">報導指出太陽能發電成本已跨過關鍵的經濟臨界點，發電經濟性明顯提升。這代表再生能源在成本競爭力上持續超車傳統能源，可能加速資金流入太陽能供應鏈與相關基礎建設類股。建議關注太陽能上下游供應鏈及儲能相關標的的中長期布局機會。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">太陽能</span><span class="tag">能源轉型</span><span class="tag">再生能源</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/29/sony-music-warner-sue-anthropic-alleging-a-brazen-campaign-of-intellectual-property-theft/" target="_blank" rel="noopener">索尼音樂、華納對Anthropic提告，控訴「猖狂的」智慧財產權侵權行動</a></h3>
+      <div class="summary">索尼音樂與華納音樂旗下華納查普爾(Warner Chappell)在美國加州北區法院對Anthropic(旗下Claude模型開發商)提起訴訟，就數萬件受版權保護作品求償，每件最高求償15萬美元，另因抹除版權資訊每次再求償2.5萬美元。此案是AI訓練資料版權爭議的重大指標案件，可能影響整體生成式AI產業的授權成本與訓練資料合規標準。建議關注此案後續進展，評估對AI公司訓練資料取得策略與潛在法律風險的影響。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Anthropic</span><span class="tag">版權訴訟</span><span class="tag">智慧財產權</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/08/29/nvidias-ai-advantage-is-moving-beyond-the-gpu/" target="_blank" rel="noopener">輝達(Nvidia)的AI優勢正從GPU本身延伸出去</a></h3>
+      <div class="summary">報導指出新一代資料中心系統正透過更聰明的流量調度、而非單純堆疊更多運算週期，來提升整體效率，顯示輝達的競爭優勢已從單一GPU晶片擴展至系統層級的整合能力。這意味著輝達護城河不僅在硬體效能，更在於整體資料中心架構的掌控力，強化其長期競爭地位。建議持續關注輝達在系統整合與網路互連技術上的布局，作為評估其長線護城河的重要指標。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">輝達</span><span class="tag">資料中心</span><span class="tag">半導體</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://lwn.net/Articles/1091231/" target="_blank" rel="noopener">Debian投票通過「負責任使用生成式AI」政策</a></h3>
+      <div class="summary">開源作業系統Debian社群投票通過允許在專案開發流程中「負責任地使用生成式AI」，此議題在開發者社群引發熱烈討論(465讚、419則留言)。此舉代表主流開源社群對AI輔助開發工具態度轉趨開放，可能帶動其他開源專案跟進制定類似規範。可留意其他大型開源基金會後續是否訂出更明確的AI貢獻準則。</div>
+      <div class="tags"><span class="tag">開源</span><span class="tag">生成式AI</span><span class="tag">Debian</span><span class="tag">開發者社群</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://pwning.systems/posts/llm-memory-program-analysis/" target="_blank" rel="noopener">我意外把LLM記憶機制變成了程式分析工具</a></h3>
+      <div class="summary">作者分享如何意外地將大型語言模型(LLM)的記憶機制應用於程式碼分析領域，在Hacker News上獲得266讚、71則留言的關注。此文展示LLM技術跨領域應用的創意可能性，對開發工具鏈與程式分析自動化有啟發意義。可留意此類LLM輔助程式分析方法是否能延伸應用於除錯或安全稽核工具開發。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">開發工具</span><span class="tag">LLM</span><span class="tag">程式分析</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
