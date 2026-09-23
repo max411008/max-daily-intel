@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-09-24</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 9 月 24 日（四）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/sec-mark-uyeda-agency-dropped-crypto-cases?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">前SEC代理主席：機構今年初撤銷多起加密案是為避免信譽受損</a></h3>
+      <div class="summary">SEC委員Mark Uyeda透露，機構在2025年初主動撤回多起對加密公司的訴訟，理由是擔心敗訴會損及機構公信力。這顯示SEC對加密監管執法的態度已明顯轉趨保守，等同間接承認過去部分訴訟基礎薄弱。建議持續關注SEC後續執法動向，作為判斷監管風向的領先指標。</div>
+      <div class="tags"><span class="tag">監管</span><span class="tag">SEC</span><span class="tag">美國政策</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/news/trump-discloses-up-to-100k-strategy-stock-purchase?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">川普揭露最高10萬美元Strategy股票購買紀錄</a></h3>
+      <div class="summary">川普總統在倫理申報文件中揭露7月購入Strategy（MicroStrategy）股票，金額上限10萬美元。此舉發生在其政府持續推動加密政策友善立法的背景下，可能被解讀為對比特幣儲備概念股的間接背書。投資人可留意政策與個人持股間的潛在利益關聯，作為情緒面觀察指標。</div>
+      <div class="tags"><span class="tag">政治</span><span class="tag">比特幣</span><span class="tag">監管</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-and-china-extend-busan-trade-truce-to-january-10-as-xi-arrives-for-trump-summit/" target="_blank" rel="noopener">美中將釜山貿易休戰延長至1月10日，習近平赴川普峰會</a></h3>
+      <div class="summary">美中原訂11月到期的貿易休戰被延長至明年1月10日，消除了亞洲資產近期面臨的懸崖式風險，市場普遍已預期此延長，重點轉向峰會能否達成更廣泛協議。稀土供應鏈流向仍是觀察美方是否認為中國履約的關鍵指標。建議關注峰會後續聲明對人民幣及澳幣等中國敏感貨幣的影響。</div>
+      <div class="tags"><span class="tag">地緣政治</span><span class="tag">貿易</span><span class="tag">美中關係</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/investinglive-americas-market-news-wrap-strong-us-services-pmi-leads-to-a-big-breakdown-in-bonds/" target="_blank" rel="noopener">美股盤中速報：美國服務業PMI強勁 引爆公債市場大幅重挫</a></h3>
+      <div class="summary">美國9月服務業PMI初值58.7遠高於預期56.0，數據強勁進一步強化聯準會鷹派立場，同時美國財政部標售50億美元五年期公債利率偏高。伊朗總統同時釋出願意外交解決但將捍衛荷姆茲海峽利益的訊號，地緣風險猶存。建議留意殖利率走升對成長股評價的壓力，及中東局勢對油價的潛在影響。</div>
+      <div class="tags"><span class="tag">美國經濟</span><span class="tag">公債殖利率</span><span class="tag">地緣政治</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9774226" target="_blank" rel="noopener">台股市值衝上5.3兆美元 躍居全球第四大 法人估最快下週挑戰5萬點</a></h3>
+      <div class="summary">受台積電領軍權值股帶動，台股昨日大漲357點收在48,157點，創收盤新高，總市值約5.3兆美元，超越印度成為全球第四大股市。法人預期最快下週有機會挑戰5萬點大關。建議關注台積電及權值股動能是否持續，作為指數能否延續強勢的觀察重點。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">台積電</span><span class="tag">市值排名</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9774188" target="_blank" rel="noopener">法人喊多台股 年底目標上看5.5萬點</a></h3>
+      <div class="summary">台股強勢站上48,000點後看回不回，法人指出AI需求持續帶動企業獲利上修，加上ETF資金挹注緩解升息疑慮，多家法人喊出年底目標價逾5萬點，其中統一投顧以5.5萬點最為樂觀。建議留意法人樂觀預期與實際獲利上修幅度是否同步，避免過度追高風險。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">AI</span><span class="tag">法人展望</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/business/retail/activist-starboard-urges-construction-company-to-explore-sale-1c770370?mod=rss_markets_main" target="_blank" rel="noopener">維權基金Starboard促營建公司探索出售選項</a></h3>
+      <div class="summary">維權投資機構Starboard要求營建公司Knife River評估出售可能性，消息公布後該公司股價週三重挫逾7%。此案顯示維權基金持續在傳統產業尋找價值釋放機會。建議關注後續是否有具體收購方浮現，作為股價是否止跌反彈的訊號。</div>
+      <div class="tags"><span class="tag">維權投資</span><span class="tag">併購</span><span class="tag">美股</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/microns-stock-has-become-a-battleground-as-the-ai-narrative-shifts-d61a3408?mod=mw_rss_topstories" target="_blank" rel="noopener">美光股價成為AI敘事轉折下的「戰場股」</a></h3>
+      <div class="summary">投資人對記憶體晶片需求的持久性關注度提高，美光股價因此成為多空交鋒的焦點。瑞銀分析師認為在需求延續性上仍有樂觀理由。建議關注記憶體現貨價格與AI伺服器需求數據，作為判斷美光後續股價走勢的依據。</div>
+      <div class="tags"><span class="tag">半導體</span><span class="tag">AI</span><span class="tag">美股</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/998480/meta-connect-2026-biggest-news-announcements" target="_blank" rel="noopener">Meta Connect 2026：本屆重點新聞與發表一覽</a></h3>
+      <div class="summary">Meta年度產品發表會Meta Connect登場，聚焦AI與智慧眼鏡等穿戴裝置，執行長祖克柏預期將公布相關更新。此次發表會適逢公司因用戶使用爭議面臨高度審視。建議關注會中AI功能與硬體整合的具體規格，評估對Meta AI生態系競爭力的影響。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Meta</span><span class="tag">穿戴裝置</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/09/23/anthropic-says-its-biology-lab-has-already-found-something-big/" target="_blank" rel="noopener">Anthropic稱其生物實驗室已有重大發現</a></h3>
+      <div class="summary">Anthropic透露其生物實驗室已有重大突破，但強調目前並未讓Claude在實驗室中「自由行動」，人類仍全程參與監督。此舉顯示Anthropic正將AI能力延伸至科學研究領域，同時謹慎管控自主性風險。建議關注後續是否公布具體研究成果，評估其對Anthropic商業敘事（含IPO前景）的影響。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Anthropic</span><span class="tag">生技</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/extract-by-firecrawl" target="_blank" rel="noopener">Alexandria by Firecrawl：為超級智慧打造的知識庫</a></h3>
+      <div class="summary">Firecrawl推出新產品Alexandria，定位為服務「超級智慧」等級AI系統的知識庫平台，於Product Hunt發表。此產品反映AI基礎設施廠商正將重心轉向為大型AI系統提供結構化知識供給層。建議留意其與現有RAG/知識管理工具的差異化定位。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">開發工具</span><span class="tag">知識管理</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Product Hunt</div>
+      <h3><a href="https://www.producthunt.com/products/claude-fable-5-1" target="_blank" rel="noopener">Claude Opus 5.5 登場</a></h3>
+      <div class="summary">Anthropic推出Claude 5.5系列首款模型Opus 5.5，於Product Hunt上架。此為Claude模型家族的最新一代旗艦產品。建議關注其效能基準與定價相較前代（含目前使用中的Sonnet 5）的差異，評估是否需要調整模型選型策略。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Anthropic</span><span class="tag">新產品</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
