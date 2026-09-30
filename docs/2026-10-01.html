@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-10-01</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 10 月 1 日（四）</div>
+    <div class="stats">
+      <span>12 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/markets/2026-09-30-clarity-acts-failure-gave-crypto-faster-regulatory-wins-bitwise-says-417362" target="_blank" rel="noopener">Clarity法案闖關失敗 Bitwise投資長：反讓加密產業監管進展更快</a></h3>
+      <div class="summary">美國國會的加密貨幣監管框架《Clarity Act》未能通過，Bitwise投資長Matt Hougan認為此結果反而讓業界少了新限制、SEC行動更快。這代表即使正式立法受阻，監管機關仍可能以更靈活的行政手段推進對加密產業有利的規則。建議持續關注SEC後續執法動向，勿誤判監管風險已升高。</div>
+      <div class="tags"><span class="tag">監管</span><span class="tag">美國政策</span><span class="tag">加密貨幣</span><span class="tag">SEC</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">CoinTelegraph</div>
+      <h3><a href="https://cointelegraph.com/markets/standard-chartered-ethena-usde-growth-40b?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound" target="_blank" rel="noopener">渣打銀行看多Ethena：USDe將衝40億美元，ENA上看2美元</a></h3>
+      <div class="summary">渣打銀行（Standard Chartered）預測Ethena的穩定幣USDe規模將成長至400億美元，且治理代幣ENA到2028年底可能上漲約7倍至2美元。此預測反映傳統大型銀行對DeFi穩定幣賽道的高度看好，可能吸引更多機構資金進場。若持有ENA或關注穩定幣板塊，可留意USDe擴張速度與代幣回購計畫進度作為驗證指標。</div>
+      <div class="tags"><span class="tag">DeFi</span><span class="tag">穩定幣</span><span class="tag">機構預測</span><span class="tag">Ethena</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-calls-for-powell-to-resign-over-fed-renovation-asks-attorney-general-to-review-report/" target="_blank" rel="noopener">川普要求鮑爾因聯準會大樓整修爭議辭職，並要求司法部長審查報告</a></h3>
+      <div class="summary">川普在社群平台發文，要求聯準會主席鮑爾（Jerome Powell）因總部整修工程管理不當與成本超支而辭職，並要求司法部長審查監察長報告。此舉再度凸顯白宮與聯準會之間的緊張關係，可能加劇市場對Fed獨立性受政治干預的擔憂，進而影響美元與美債走勢。建議密切關注後續聯準會人事與政策獨立性相關消息，作為美元及黃金避險配置的參考訊號。</div>
+      <div class="tags"><span class="tag">央行</span><span class="tag">地緣政治</span><span class="tag">美國政治</span><span class="tag">聯準會</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/us-gdp-final-for-q2-2-2-vs-1-5-estimate/" target="_blank" rel="noopener">美國第二季GDP終值上修至2.2%，優於預期1.5%</a></h3>
+      <div class="summary">美國第二季GDP終值大幅上修至年化2.2%，遠高於原先1.5%的預期與前值，消費支出成長也由3.4%上修至3.8%。這顯示美國經濟基本面比先前評估更為強勁，可能降低市場對聯準會近期降息的預期。建議留意此數據對美債殖利率與美元指數的連動影響，並重新評估對利率敏感資產的持倉。</div>
+      <div class="tags"><span class="tag">美國經濟</span><span class="tag">GDP</span><span class="tag">宏觀數據</span><span class="tag">央行</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9786981" target="_blank" rel="noopener">台股慢牛行情有望「碎碎漲」 技術面偏多、企業獲利上修潮浮現</a></h3>
+      <div class="summary">受美股費城半導體指數與台積電ADR上漲激勵，台股昨日開高走高，收漲308點、量增至9,214.9億元，呈現價漲量增的多頭格局。電子、金融、傳產三大類股齊揚，顯示市場信心回溫且企業獲利預期正在上修。可留意電金傳權值股的量價表現，作為判斷多頭行情能否延續的觀察指標。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">半導體</span><span class="tag">台積電</span><span class="tag">多頭行情</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9786941" target="_blank" rel="noopener">台股史上最強9月 單月勁揚1,811點、漲幅3.9%居全球第二</a></h3>
+      <div class="summary">台股加權指數9月單月大漲1,811點、漲幅3.9%，創下歷史最強9月紀錄，漲幅居全球主要指數第二高；前三季累計漲點18,976點，同樣創下歷年同期新高。此現象顯示資金持續流入台股，不確定因素消退後的多頭動能明顯增強。建議關注第四季企業財報與外資動向，評估此波漲勢能否延續至年底。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">指數表現</span><span class="tag">資金流向</span><span class="tag">月度紀錄</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">MarketWatch</div>
+      <h3><a href="https://www.marketwatch.com/story/google-shows-its-not-out-of-the-ai-race-just-yet-75e19860?mod=mw_rss_topstories" target="_blank" rel="noopener">Google發表Gemini 4 Argon 展現AI競賽並未掉隊</a></h3>
+      <div class="summary">Google發布新一代前沿AI模型Gemini 4 Argon，展現其在企業知識工作、軟體工程及網路安全防禦等複雜任務上的頂尖表現，顯示Google仍具備與OpenAI、Anthropic等對手競爭的實力。此消息可能提振Alphabet股價及市場對其AI變現能力的信心。建議關注Gemini 4後續商業化進度，以及對Google雲端與廣告業務的實際貢獻。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Google</span><span class="tag">科技股</span><span class="tag">雲端運算</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/finance/stocks/a-tech-fueled-stock-market-powers-through-but-limps-into-the-fourth-quarter-47eac700?mod=rss_markets_main" target="_blank" rel="noopener">科技股撐起大盤 美股邁入第四季步履蹣跚</a></h3>
+      <div class="summary">那斯達克指數與標普500指數有望連續第四年實現雙位數漲幅，這是自1990年代末以來首次出現此紀錄，主要由科技股帶動。然而，美債殖利率上升可能成為第四季市場的最大變數，威脅這波漲勢的延續性。建議投資人留意利率走勢對估值偏高的科技股所帶來的壓力，適度分散風險。</div>
+      <div class="tags"><span class="tag">美股</span><span class="tag">科技股</span><span class="tag">殖利率</span><span class="tag">大盤走勢</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Verge AI</div>
+      <h3><a href="https://www.theverge.com/tech/1002980/google-gemini-4-argon" target="_blank" rel="noopener">Google發表Gemini 4，稱功能強大目前僅開放給「可信賴的網路防禦者」</a></h3>
+      <div class="summary">Google發布下一代前沿AI模型Gemini 4 Argon，宣稱在軟體工程、企業法律財務知識工作及網路安全防禦等複雜工作流程上具備頂尖表現，但目前僅限「可信賴的網路防禦者」使用。此舉顯示Google一方面加速推進模型能力，另一方面也因應AI安全與濫用風險採取更審慎的分階段開放策略。建議關注該模型後續全面開放時程，以及是否被用於強化網路安全防禦的實際案例。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">Google</span><span class="tag">網路安全</span><span class="tag">大型語言模型</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/09/30/ai-voice-startup-elevenlabs-doubles-valuation-to-22b/" target="_blank" rel="noopener">AI語音新創ElevenLabs估值翻倍至220億美元</a></h3>
+      <div class="summary">AI語音技術公司ElevenLabs完成新一輪融資，估值翻倍達220億美元，其中包含由Wellington與T. Rowe Price共同主導的3億美元員工股份出售。此次估值躥升反映市場對生成式語音及AI配音應用商業前景的強烈信心。建議關注ElevenLabs後續產品線擴張及企業客戶採用情況，作為判斷AI語音賽道估值是否過熱的參考。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">語音技術</span><span class="tag">新創估值</span><span class="tag">融資</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://insufferable.dev/posts/the-ai-race-just-got-awkward/" target="_blank" rel="noopener">AI競賽氣氛變得尷尬</a></h3>
+      <div class="summary">這篇在Hacker News上引發熱議的文章（366點讚、402則留言）討論當前AI競賽中逐漸浮現的尷尬處境，可能涉及各大廠商競相發布模型卻難以證明實際效益的現象。此話題反映開發者社群對AI炒作與實際落地成果之間差距的集體反思。建議留意文章具體論點，作為判斷市場AI敘事是否過度樂觀的參考。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">開發者社群</span><span class="tag">產業觀察</span><span class="tag">科技評論</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://www.thenationalnews.com/future/technology/2026/09/29/ai-industry-needs-to-earn-6-trillion-by-2031-to-justify-data-centres/" target="_blank" rel="noopener">AI產業需要6兆美元年營收才能證明資料中心投資合理</a></h3>
+      <div class="summary">報導指出，AI產業到2031年須創造6兆美元的年營收，才足以支撐當前龐大的資料中心建設投資規模。這項分析凸顯市場對AI投資是否存在泡沫化風險的深度疑慮，尤其是基礎設施支出與實際變現能力之間的巨大落差。建議關注各大雲端及AI廠商的資本支出與營收成長比，作為評估AI相關股票估值是否合理的關鍵指標。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">資料中心</span><span class="tag">產業泡沫</span><span class="tag">投資</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
