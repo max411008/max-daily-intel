@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MAX 情報站">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.json">
+<title>MAX 每日情報 — 2026-11-02</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elevated: #161616;
+    --card-bg: #1a1a1a;
+    --card-border: #262626;
+    --card-hover: #2a2a2a;
+    --text: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --text-dim: #666;
+    --accent-crypto: #f7931a;
+    --accent-gold: #ffd700;
+    --accent-tw-stocks: #e53935;
+    --accent-us-stocks: #34d399;
+    --accent-ai: #a78bfa;
+    --accent-dev: #22d3ee;
+    --link: #60a5fa;
+    --glow: rgba(96, 165, 250, 0.08);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 20px calc(80px + var(--safe-bottom));
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-ai), var(--accent-dev));
+    border-radius: 1px;
+  }
+
+  header .logo {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+
+  header .date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  header .stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Navigation dots */
+  .nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0;
+    margin-bottom: 8px;
+  }
+
+  .nav-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  .nav-dot:active {
+    transform: scale(0.92);
+  }
+
+  /* Sector */
+  .sector {
+    margin-bottom: 28px;
+  }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding: 0 4px;
+  }
+
+  .sector-header .indicator {
+    width: 3px;
+    height: 20px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sector-header h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .sector-header .badge {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    background: var(--card-bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  /* News card */
+  .news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .news-card:active {
+    background: var(--card-hover);
+    transform: scale(0.99);
+  }
+
+  .news-card .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .news-card .source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .news-card .time {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  .news-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+
+  .news-card h3 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .news-card .summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .news-card .tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .news-card .tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* Empty state */
+  .empty {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 16px;
+    font-size: 0.85rem;
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px dashed var(--card-border);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 0 16px;
+    margin-top: 12px;
+  }
+
+  footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+  }
+
+  footer a:active { background: var(--card-hover); }
+
+  footer .powered {
+    margin-top: 16px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+  }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Selection */
+  ::selection {
+    background: rgba(96, 165, 250, 0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">MAX Daily Intel</div>
+    <h1>每日情報站</h1>
+    <div class="date">2026 年 11 月 2 日（一）</div>
+    <div class="stats">
+      <span>11 則情報</span>
+      <span>7 大板塊</span>
+    </div>
+  </header>
+
+  <nav class="nav-dots">
+    <a class="nav-dot" href="#crypto" title="加密貨幣" style="border-color:var(--accent-crypto)">&#x1f4b0;</a>
+    <a class="nav-dot" href="#gold" title="黃金商品" style="border-color:var(--accent-gold)">&#x1f947;</a>
+    <a class="nav-dot" href="#tw_stocks" title="台股" style="border-color:#e53935">&#x1f1f9;&#x1f1fc;</a>
+    <a class="nav-dot" href="#us_stocks" title="美股" style="border-color:var(--accent-stocks)">&#x1f1fa;&#x1f1f8;</a>
+    <a class="nav-dot" href="#ai" title="AI 產業" style="border-color:var(--accent-ai)">&#x1f916;</a>
+    <a class="nav-dot" href="#dev" title="開發靈感" style="border-color:var(--accent-dev)">&#x1f6e0;&#xfe0f;</a>
+  </nav>
+
+  
+  <section class="sector" id="crypto">
+    <div class="sector-header">
+      <div class="indicator" style="background:#f7931a"></div>
+      <h2>&#x1f4b0; 加密貨幣</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/defi/2026-11-01-north-korean-hackers-launder-242-million-of-binance-loot-via-tron-as-fbi-presses-thorchain-analyst-432257" target="_blank" rel="noopener">北韓駭客經 Tron 洗錢 2.42 億美元幣安贓款，FBI 施壓 THORChain</a></h3>
+      <div class="summary">跨鏈橋 Relay、THORChain、Chainflip 與 Symbiosis 已將約 1.4 億美元贓款移出 Tron，其中 Relay 處理最多，達 4,800 萬美元。這顯示北韓駭客正利用跨鏈基礎設施規避穩定幣凍結，執法機關與 DeFi 協議的攔阻能力將受考驗。建議關注 THORChain 等協議是否配合封鎖地址，並留意相關代幣的監管風險。</div>
+      <div class="tags"><span class="tag">駭客</span><span class="tag">洗錢</span><span class="tag">跨鏈橋</span><span class="tag">地緣政治</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">The Block</div>
+      <h3><a href="https://www.theblock.co/news/business/2026-11-01-binance-sees-3-64-billion-in-net-outflows-after-reopening-withdrawals-following-record-hack-432259" target="_blank" rel="noopener">幣安重啟提款後出現 36.4 億美元淨流出</a></h3>
+      <div class="summary">幣安表示淨流出相當於其 1,710 億美元資產的 2.1%，且提款量在初期暴增後已下降。這代表在創紀錄駭客事件後，擠兌壓力暫時可控，市場信心尚未崩潰。建議持續觀察後續流出趨勢與資產補足進度，再評估交易所風險敞口。</div>
+      <div class="tags"><span class="tag">幣安</span><span class="tag">交易所</span><span class="tag">資金流動</span><span class="tag">風險</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="gold">
+    <div class="sector-header">
+      <div class="indicator" style="background:#ffd700"></div>
+      <h2>&#x1f947; 黃金商品</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/trump-says-us-and-canada-have-concept-of-a-deal-two-days-before-midterms/" target="_blank" rel="noopener">川普稱美加已有貿易協議「概念」，距期中選舉僅兩天</a></h3>
+      <div class="summary">川普表示美加雙方對協議已有「概念」，若屬實將利多加幣與受關稅拖累的加拿大出口股。但雙方未說明關稅將如何調整、何時生效，且時點恰在期中選舉前兩天，市場在看到文本前可能打折看待。建議等待具體條文再行動。</div>
+      <div class="tags"><span class="tag">貿易</span><span class="tag">關稅</span><span class="tag">加幣</span><span class="tag">期中選舉</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">ForexLive</div>
+      <h3><a href="https://investinglive.com/news/china-s-factory-and-services-pmi-gauges-both-drop-below-50-as-fourth-quarter-starts-on-a-weak-note/" target="_blank" rel="noopener">中國製造業與服務業 PMI 雙雙跌破 50，第四季開局疲弱</a></h3>
+      <div class="summary">中國製造業與服務業 PMI 同步跌破榮枯線 50，數據於週六公布，週一亞洲盤將是市場首度消化。需求轉弱通常不利銅、鐵礦砂等工業金屬，也壓抑人民幣與澳幣，中國股市則可能因政策支持預期而獲部分緩衝。建議留意週一金屬與商品貨幣的開盤反應。</div>
+      <div class="tags"><span class="tag">中國</span><span class="tag">PMI</span><span class="tag">工業金屬</span><span class="tag">商品</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="tw_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#e53935"></div>
+      <h2>&#x1f1f9;&#x1f1fc; 台股</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9850763" target="_blank" rel="noopener">美期中選舉逼近、美股重挫，台股多空三情境推演</a></h3>
+      <div class="summary">英特爾與 Google 母公司財報失色，美股上週五全面重挫，今日台股開盤面臨回測 44,000 點的壓力。多家投顧法人祭出三大情境，認為多空將決戰 44,700 點關鍵位置。建議投資者設好停損、避免追價，等待選後方向明朗。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">期中選舉</span><span class="tag">技術面</span><span class="tag">美股</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">經濟日報</div>
+      <h3><a href="https://money.udn.com/money/story/5607/9850834" target="_blank" rel="noopener">投顧：台股本月有望再攻 5 萬點</a></h3>
+      <div class="summary">受雲端巨擘資本支出變現疑慮衝擊，台股 10 月重挫 2,728 點，但富邦、統一、兆豐等大型投顧認為，待美國大選等變數沉澱後，本月中下旬仍有機會再攻 5 萬點。這反映法人對 AI 長線趨勢仍具信心。建議短線保守、等待選後落底訊號再布局。</div>
+      <div class="tags"><span class="tag">台股</span><span class="tag">投顧</span><span class="tag">AI</span><span class="tag">資本支出</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="us_stocks">
+    <div class="sector-header">
+      <div class="indicator" style="background:#4caf50"></div>
+      <h2>&#x1f1fa;&#x1f1f8; 美股</h2>
+      <span class="badge">1 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">WSJ Markets</div>
+      <h3><a href="https://www.wsj.com/finance/currencies/binance-resumes-withdrawals-after-suffering-biggest-ever-crypto-hack-11d1900f?mod=rss_markets_main" target="_blank" rel="noopener">幣安在史上最大加密貨幣駭客事件後恢復提款</a></h3>
+      <div class="summary">幣安表示已補回約 95% 的被盜資產並重啟提款，緩解市場對交易所償付能力的疑慮。這是加密市場史上最大規模的駭客事件，其後續處理將影響整體產業信心。建議持續觀察資金流出規模與剩餘缺口補足情況。</div>
+      <div class="tags"><span class="tag">加密貨幣</span><span class="tag">幣安</span><span class="tag">駭客</span><span class="tag">風險</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="ai">
+    <div class="sector-header">
+      <div class="indicator" style="background:#7c4dff"></div>
+      <h2>&#x1f916; AI 產業</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake/" target="_blank" rel="noopener">蘋果執行長：不想「為了 AI 而出貨 AI」</a></h3>
+      <div class="summary">蘋果新任執行長為公司目前在 AI 領域的定位辯護，強調不會為了 AI 而推出 AI 功能。這顯示蘋果仍走務實、重整合的路線，與競爭對手的激進佈局形成對比。建議觀察蘋果後續 AI 產品節奏及其對 iPhone 換機週期的影響。</div>
+      <div class="tags"><span class="tag">Apple</span><span class="tag">AI</span><span class="tag">策略</span><span class="tag">消費電子</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">TechCrunch AI</div>
+      <h3><a href="https://techcrunch.com/2026/10/31/judge-allows-naacp-lawsuit-over-xai-data-center-pollution-to-move-forward/" target="_blank" rel="noopener">法官允許 NAACP 控告 xAI 資料中心污染案繼續審理</a></h3>
+      <div class="summary">法官裁定 NAACP 指控 SpaceX 旗下 AI 公司 xAI 違反《清潔空氣法》的訴訟可繼續進行。這顯示 AI 資料中心的環境與社區影響正面臨更多法律挑戰，可能推高營運與合規成本。建議關注後續判決對其他 AI 基礎設施擴建的影響。</div>
+      <div class="tags"><span class="tag">AI</span><span class="tag">資料中心</span><span class="tag">環境</span><span class="tag">訴訟</span></div>
+    </div>
+  </section>
+
+  <section class="sector" id="dev">
+    <div class="sector-header">
+      <div class="indicator" style="background:#00bcd4"></div>
+      <h2>&#x1f6e0;&#xfe0f; 開發靈感</h2>
+      <span class="badge">2 則</span>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://nolanlawson.com/2026/10/28/the-ai-cost-of-javascript-frameworks/" target="_blank" rel="noopener">JavaScript 框架的 AI 成本</a></h3>
+      <div class="summary">這篇文章探討 JavaScript 框架在 AI 輔助開發下所產生的成本，在 Hacker News 獲得 270 分、210 則留言。這顯示框架選擇正開始影響 AI 程式碼生成的效率與品質。建議團隊評估框架對 AI 工具友善度，作為技術選型的參考。</div>
+      <div class="tags"><span class="tag">JavaScript</span><span class="tag">AI 開發</span><span class="tag">框架</span><span class="tag">開發工具</span></div>
+    </div>
+    <div class="news-card">
+      <div class="source">Hacker News Best</div>
+      <h3><a href="https://mashable.com/tech/anthropic-takes-steps-to-block-video-game-cloning-and-reverse-engineering" target="_blank" rel="noopener">Anthropic (Anthropic) 採取措施阻止 Claude 逆向工程電玩遊戲</a></h3>
+      <div class="summary">Anthropic 正採取措施，防止 Claude 被用來複製或逆向工程電玩遊戲，在 Hacker News 引發 179 分、112 則留言的討論。這反映 AI 公司在智慧財產權與濫用防範上的壓力升高。建議開發者留意相關使用政策，避免觸及版權風險。</div>
+      <div class="tags"><span class="tag">Anthropic</span><span class="tag">AI 安全</span><span class="tag">遊戲</span><span class="tag">智慧財產</span></div>
+    </div>
+  </section>
+
+
+  <footer>
+    <a href="index.html">&#x1f4c5; 所有期數</a>
+    <div class="powered">Powered by Claude Code</div>
+  </footer>
+</div>
+</body>
+</html>
